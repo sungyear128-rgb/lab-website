@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연락처 - 우리 연구실</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 네비게이션 바 -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">우리 연구실</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">홈</a></li>
+                <li><a href="research.html">연구</a></li>
+                <li><a href="people.html">팀</a></li>
+                <li><a href="publications.html">논문</a></li>
+                <li><a href="news.html">뉴스</a></li>
+                <li><a href="contact.html" class="active">연락처</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 페이지 제목 -->
+    <section class="page-header">
+        <div class="container">
+            <h1>연락처</h1>
+            <p>우리와 연락하세요</p>
+        </div>
+    </section>
+
+    <!-- 연락처 정보 -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-info">
+                <div class="info-box">
+                    <h3>📍 주소</h3>
+                    <p>서울시 강남구 테헤란로 123</p>
+                    <p>OO 대학교 공학관 5층</p>
+                </div>
+                <div class="info-box">
+                    <h3>📞 전화</h3>
+                    <p>연구실: +82-2-123-4567</p>
+                    <p>교수님: +82-2-123-4568</p>
+                </div>
+                <div class="info-box">
+                    <h3>📧 이메일</h3>
+                    <p>일반 문의: lab@university.edu</p>
+                    <p>채용 문의: recruit@university.edu</p>
+                </div>
+            </div>
+
+            <!-- 문의 폼 -->
+            <div class="contact-form">
+                <h2>문의 양식</h2>
+                <form>
+                    <div class="form-group">
+                        <label for="name">이름</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">이메일</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">제목</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">메시지</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">전송</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 우리 연구실. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">Facebook</a>
+                <a href="#">Twitter</a>
+                <a href="#">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
