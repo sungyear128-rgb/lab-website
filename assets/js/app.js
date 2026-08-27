@@ -34,9 +34,6 @@ function initNav(){
   const btn=$(".menu-btn"), menu=$(".menu");
   if(btn&&menu) btn.addEventListener("click",()=>menu.classList.toggle("open"));
   $$(".menu a").forEach(a=>a.addEventListener("click",()=>menu?.classList.remove("open")));
-  const page=document.body.dataset.page;
-  const active=$(`.menu a[data-nav="${page}"]`);
-  if(active) active.classList.add("active");
 }
 function initYear(){
   $$(".current-year").forEach(el=>el.textContent=new Date().getFullYear());
@@ -198,42 +195,23 @@ async function resourcesPage(){
 }
 
 async function contactPage(){
-  const s=await applySite();
-  if(s.map_image){
-    if($("#campus-map")) $("#campus-map").src=s.map_image;
-    if($("#map-large")) $("#map-large").src=s.map_image;
-  }
+  await applySite();
   const p=await loadJSON("data/program.json",{});
   const note=$("#contact-consultation");
   if(note) note.textContent=p.consultation_note||"";
-  initMapViewer();
+  initExternalMap();
 }
 
-function initMapViewer(){
-  const preview=$("#map-preview"), modal=$("#map-modal"), img=$("#map-large");
-  if(!preview||!modal||!img) return;
+function initExternalMap(){
+  const preview=$("#map-preview");
+  const openButton=$("#map-open-button");
+  const modal=$("#map-modal");
+  if(!preview||!modal) return;
 
-  let scale=1;
-  let x=0, y=0;
-  let dragging=false, startX=0, startY=0;
-
-  const clamp=(v,min,max)=>Math.min(max,Math.max(min,v));
-  const render=()=>{
-    img.style.transform=`translate(${x}px,${y}px) scale(${scale})`;
-    const reset=$("#map-reset");
-    if(reset) reset.textContent=`${Math.round(scale*100)}%`;
-  };
-  const reset=()=>{ scale=1; x=0; y=0; render(); };
-  const zoom=(delta)=>{
-    scale=clamp(scale+delta,0.7,3);
-    if(scale<=1){ x=0; y=0; }
-    render();
-  };
   const open=()=>{
     modal.classList.add("open");
     modal.setAttribute("aria-hidden","false");
     document.body.classList.add("map-open");
-    reset();
   };
   const close=()=>{
     modal.classList.remove("open");
@@ -242,42 +220,23 @@ function initMapViewer(){
   };
 
   preview.addEventListener("click",open);
-  preview.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();open();} });
+  openButton?.addEventListener("click",e=>{
+    e.stopPropagation();
+    open();
+  });
+  preview.addEventListener("keydown",e=>{
+    if(e.key==="Enter"||e.key===" "){
+      e.preventDefault();
+      open();
+    }
+  });
   $$("[data-map-close]",modal).forEach(el=>el.addEventListener("click",close));
-  $("#map-plus")?.addEventListener("click",()=>zoom(.2));
-  $("#map-minus")?.addEventListener("click",()=>zoom(-.2));
-  $("#map-reset")?.addEventListener("click",reset);
-
-  $("#map-stage")?.addEventListener("wheel",e=>{
-    e.preventDefault();
-    zoom(e.deltaY<0?.12:-.12);
-  },{passive:false});
-
-  img.addEventListener("pointerdown",e=>{
-    if(scale<=1) return;
-    dragging=true; startX=e.clientX-x; startY=e.clientY-y;
-    img.setPointerCapture(e.pointerId);
-    img.classList.add("dragging");
-  });
-  img.addEventListener("pointermove",e=>{
-    if(!dragging) return;
-    x=e.clientX-startX; y=e.clientY-startY; render();
-  });
-  img.addEventListener("pointerup",e=>{
-    dragging=false; img.classList.remove("dragging");
-    try{img.releasePointerCapture(e.pointerId)}catch(_){}
-  });
-
   document.addEventListener("keydown",e=>{
-    if(!modal.classList.contains("open")) return;
-    if(e.key==="Escape") close();
-    if(e.key==="+") zoom(.2);
-    if(e.key==="-") zoom(-.2);
-    if(e.key==="0") reset();
+    if(e.key==="Escape"&&modal.classList.contains("open")) close();
   });
 }
 document.addEventListener("DOMContentLoaded",()=>{
   initNav(); initYear();
   const page=document.body.dataset.page;
-  ({home:homePage,research:researchPage,professor:professorPage,program:programPage,publications:publicationsPage,people:peoplePage,news:newsPage,resources:resourcesPage,contact:contactPage}[page]||applySite)();
+  ({home:homePage,research:researchPage,professor:professorPage,program:programPage,publications:publicationsPage,people:peoplePage,news:newsPage,contact:contactPage}[page]||applySite)();
 });
