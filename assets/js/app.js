@@ -11,229 +11,438 @@ async function loadJSON(path, fallback=null){
     return fallback;
   }
 }
+
 function esc(v=""){
-  return String(v).replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+  return String(v ?? "").replace(/[&<>"']/g, m=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[m]));
 }
 function nl(v=""){ return esc(v).replace(/\n/g,"<br>"); }
+function text(v){ return v == null ? "" : String(v); }
+function clean(v){ return text(v).trim(); }
+function nonEmpty(v){ return clean(v) !== ""; }
+function cleanList(v){ return Array.isArray(v) ? v.filter(nonEmpty) : []; }
+function joinParts(parts, separator=" · "){ return parts.filter(nonEmpty).map(clean).join(separator); }
+
+function setTextElement(el, value, hideWhenEmpty=true){
+  if(!el) return;
+  const valueText=text(value);
+  el.textContent=valueText;
+  if(hideWhenEmpty) el.hidden=!nonEmpty(valueText);
+}
+
+function setHTMLOrHide(el, html){
+  if(!el) return;
+  el.innerHTML=html || "";
+  el.hidden=!nonEmpty(html);
+}
 
 async function applySite(){
   const s = await loadJSON("data/site.json", {});
+
+  // CMS 값이 없거나 빈 문자열이면 HTML 기본문구를 되살리지 않고 실제로 비웁니다.
   $$("[data-site]").forEach(el=>{
     const key=el.dataset.site;
-    if(s[key]!==undefined) el.textContent=s[key];
+    setTextElement(el, s?.[key] ?? "");
   });
+
   $$("[data-site-mail]").forEach(el=>{
-    if(s.email){el.textContent=s.email; el.href=`mailto:${s.email}`;}
+    const value=clean(s?.email);
+    el.textContent=value;
+    el.hidden=!value;
+    if(value) el.href=`mailto:${value}`;
+    else el.removeAttribute("href");
   });
+
   $$("[data-site-phone]").forEach(el=>{
-    if(s.phone){el.textContent=s.phone; el.href=`tel:${s.phone.replace(/[^0-9+]/g,"")}`;}
+    const value=clean(s?.phone);
+    el.textContent=value;
+    el.hidden=!value;
+    if(value) el.href=`tel:${value.replace(/[^0-9+]/g,"")}`;
+    else el.removeAttribute("href");
   });
-  return s;
+
+  return s || {};
 }
+
 function initNav(){
   const btn=$(".menu-btn"), menu=$(".menu");
   if(btn&&menu) btn.addEventListener("click",()=>menu.classList.toggle("open"));
   $$(".menu a").forEach(a=>a.addEventListener("click",()=>menu?.classList.remove("open")));
-  const page=document.body.dataset.page;
-  const active=$(`.menu a[data-nav="${page}"]`);
-  if(active) active.classList.add("active");
 }
+
 function initYear(){
   $$(".current-year").forEach(el=>el.textContent=new Date().getFullYear());
 }
 
 async function homePage(){
   const s=await applySite();
+
+  // 어떤 필드에도 자동 기본값을 넣지 않습니다.
+  const before=clean(s.hero_title_before);
+  const highlight=clean(s.hero_title_highlight);
+  const after=clean(s.hero_title_after);
+
   if($("#hero-title")){
-    $("#hero-title").innerHTML=`${esc(s.hero_title_before||"Exploring")} <em>${esc(s.hero_title_highlight||"cognition")}</em>, ${esc(s.hero_title_after||"behavior, and the aging brain.")}`;
+    let html="";
+    if(before) html+=esc(before);
+    if(highlight) html+=`${before?" ":""}<em>${esc(highlight)}</em>`;
+    if(after) html+=`${(before||highlight)?", ":""}${esc(after)}`;
+    $("#hero-title").innerHTML=html;
+    $("#hero-title").hidden=!nonEmpty(html);
   }
+
   if($("#home-research")){
     const items=await loadJSON("data/research.json",[]);
-    $("#home-research").innerHTML=items.slice(0,3).map((x,i)=>`
-      <article class="card"><div class="icon">${String(i+1).padStart(2,"0")}</div>
-      <h3>${esc(x.title)}</h3><p>${esc(x.description)}</p></article>`).join("");
+    const visible=(items||[]).filter(x=>nonEmpty(x?.title)||nonEmpty(x?.description));
+    $("#home-research").innerHTML=visible.slice(0,3).map((x,i)=>`
+      <article class="card">
+        <div class="icon">${String(i+1).padStart(2,"0")}</div>
+        ${nonEmpty(x.title)?`<h3>${esc(x.title)}</h3>`:""}
+        ${nonEmpty(x.description)?`<p>${esc(x.description)}</p>`:""}
+      </article>`).join("");
   }
+
   if($("#home-projects")){
     const items=await loadJSON("data/projects.json",[]);
-    $("#home-projects").innerHTML=items.slice(0,2).map(x=>`
-      <article class="project"><div class="meta">${esc(x.start_year)} · ${esc(x.status)}</div>
-      <h3>${esc(x.title)}</h3><p>${esc(x.description)}</p></article>`).join("");
+    const visible=(items||[]).filter(x=>nonEmpty(x?.title)||nonEmpty(x?.description)||nonEmpty(x?.start_year)||nonEmpty(x?.status));
+    $("#home-projects").innerHTML=visible.slice(0,2).map(x=>{
+      const meta=joinParts([x.start_year,x.status]);
+      return `<article class="project">
+        ${meta?`<div class="meta">${esc(meta)}</div>`:""}
+        ${nonEmpty(x.title)?`<h3>${esc(x.title)}</h3>`:""}
+        ${nonEmpty(x.description)?`<p>${esc(x.description)}</p>`:""}
+      </article>`;
+    }).join("");
   }
+
   if($("#home-news")){
     const items=await loadJSON("data/news.json",[]);
-    $("#home-news").innerHTML=items.slice(0,3).map(newsCard).join("") || emptyBlock("등록된 소식이 없습니다.","Pages CMS에서 News를 추가할 수 있습니다.");
+    $("#home-news").innerHTML=(items||[]).slice(0,3).map(x=>newsCard(x,false)).join("")
+      || emptyBlock("등록된 소식이 없습니다.","Pages CMS에서 News를 추가할 수 있습니다.");
   }
 }
+
 function newsCard(x, full=false){
-  const image=x.image ? `<div class="news-img"><img src="${esc(x.image)}" alt=""></div>` : `<div class="news-img">LAB NEWS</div>`;
-  const summary=esc(x.summary||x.body||"");
-  const detail=(full && x.body && x.body!==x.summary)
-    ? `<div class="news-detail">${nl(x.body)}</div>` : "";
-  return `<article class="news-card">${image}<div class="news-body"><div class="news-date">${esc(x.date)}</div><h3>${esc(x.title)}</h3><p>${summary}</p>${detail}</div></article>`;
+  const image=nonEmpty(x?.image)
+    ? `<div class="news-img"><img src="${esc(x.image)}" alt=""></div>`
+    : "";
+
+  // summary가 비어 있으면 body를 대신 복사하지 않습니다.
+  const summary=clean(x?.summary);
+  const body=clean(x?.body);
+  const detail=(full && body) ? `<div class="news-detail">${nl(body)}</div>` : "";
+
+  return `<article class="news-card">
+    ${image}
+    <div class="news-body">
+      ${nonEmpty(x?.date)?`<div class="news-date">${esc(x.date)}</div>`:""}
+      ${nonEmpty(x?.title)?`<h3>${esc(x.title)}</h3>`:""}
+      ${summary?`<p>${esc(summary)}</p>`:""}
+      ${detail}
+    </div>
+  </article>`;
 }
+
 function emptyBlock(title,text){
   return `<div class="empty"><h3>${esc(title)}</h3><p>${esc(text)}</p></div>`;
 }
 
 async function researchPage(){
   await applySite();
-  const areas=(await loadJSON("data/research.json",[])).slice().sort((a,b)=>(Number(a.order)||999)-(Number(b.order)||999));
-  const projects=await loadJSON("data/projects.json",[]);
-  const topics=await loadJSON("data/research_topics.json",[]);
-  $("#research-grid").innerHTML=areas.map((x,i)=>`
-    <article class="card"><div class="icon">${String(i+1).padStart(2,"0")}</div>
-    <h3>${esc(x.title)}</h3><p style="color:#2b6de0;font-size:.8rem;font-weight:800;margin:-3px 0 10px">${esc(x.title_ko||"")}</p><p>${esc(x.description)}</p></article>`).join("");
-  $("#project-grid").innerHTML=projects.map(x=>`
-    <article class="project"><div class="meta">${esc(x.start_year)} · ${esc(x.status)}</div>
-    <h3>${esc(x.title)}</h3><p>${esc(x.description)}</p></article>`).join("");
+  const areas=(await loadJSON("data/research.json",[]) || [])
+    .filter(x=>nonEmpty(x?.title)||nonEmpty(x?.title_ko)||nonEmpty(x?.description))
+    .slice()
+    .sort((a,b)=>(Number(a.order)||999)-(Number(b.order)||999));
+
+  const projects=(await loadJSON("data/projects.json",[]) || [])
+    .filter(x=>nonEmpty(x?.title)||nonEmpty(x?.description)||nonEmpty(x?.start_year)||nonEmpty(x?.status));
+
+  const topics=(await loadJSON("data/research_topics.json",[]) || [])
+    .filter(x=>nonEmpty(x?.category)||cleanList(x?.examples).length);
+
+  if($("#research-grid")){
+    $("#research-grid").innerHTML=areas.map((x,i)=>`
+      <article class="card">
+        <div class="icon">${String(i+1).padStart(2,"0")}</div>
+        ${nonEmpty(x.title)?`<h3>${esc(x.title)}</h3>`:""}
+        ${nonEmpty(x.title_ko)?`<p style="color:#2b6de0;font-size:.8rem;font-weight:800;margin:-3px 0 10px">${esc(x.title_ko)}</p>`:""}
+        ${nonEmpty(x.description)?`<p>${esc(x.description)}</p>`:""}
+      </article>`).join("");
+  }
+
+  if($("#project-grid")){
+    $("#project-grid").innerHTML=projects.map(x=>{
+      const meta=joinParts([x.start_year,x.status]);
+      return `<article class="project">
+        ${meta?`<div class="meta">${esc(meta)}</div>`:""}
+        ${nonEmpty(x.title)?`<h3>${esc(x.title)}</h3>`:""}
+        ${nonEmpty(x.description)?`<p>${esc(x.description)}</p>`:""}
+      </article>`;
+    }).join("");
+  }
+
   const topicRoot=$("#research-topics");
   if(topicRoot){
-    topicRoot.innerHTML=topics.map((x,i)=>`
-      <article class="topic-card">
+    topicRoot.innerHTML=topics.map((x,i)=>{
+      const examples=cleanList(x.examples);
+      return `<article class="topic-card">
         <div class="topic-num">${String(i+1).padStart(2,"0")}</div>
-        <div><h3>${esc(x.category)}</h3>
-        ${(x.examples||[]).length?`<ul>${x.examples.map(v=>`<li>${esc(v)}</li>`).join("")}</ul>`:`<p>관련 연구를 수행합니다.</p>`}</div>
-      </article>`).join("");
+        <div>
+          ${nonEmpty(x.category)?`<h3>${esc(x.category)}</h3>`:""}
+          ${examples.length?`<ul>${examples.map(v=>`<li>${esc(v)}</li>`).join("")}</ul>`:""}
+        </div>
+      </article>`;
+    }).join("");
   }
 }
 
 async function professorPage(){
   await applySite();
-  const p=await loadJSON("data/professor.json",{});
-  if(p.photo) $("#prof-photo").src=p.photo;
-  $("#prof-name-ko").textContent=p.name_ko||"";
-  $("#prof-name-en").textContent=[p.name_en,p.degree].filter(Boolean).join(", ");
-  $("#prof-position").textContent=p.position||"";
-  $("#prof-chips").innerHTML=(p.research_interests||[]).map(x=>`<span class="chip">${esc(x)}</span>`).join("");
-  $("#prof-email").textContent=p.email||""; $("#prof-email").href=`mailto:${p.email||""}`;
-  $("#prof-phone").textContent=p.phone||"";
-  $("#prof-education").innerHTML=(p.education||[]).map(x=>`<div class="titem"><div class="tdate">${esc(x.period)}</div><div class="ttext"><strong>${esc(x.institution)} ${esc(x.degree)}</strong><span>${esc(x.major)}</span></div></div>`).join("");
-  $("#prof-career").innerHTML=(p.career||[]).map(x=>`<li>${esc(x)}</li>`).join("");
-  const b=p.book||{};
-  $("#prof-book").innerHTML=b.title?`<div class="book-icon"></div><div><div class="eyebrow">Book</div><h3>${esc(b.title)}</h3><p>${esc(b.year)} · ${esc(b.role)}</p></div>`:"";
-}
+  const p=await loadJSON("data/professor.json",{}) || {};
 
+  const photo=$("#prof-photo");
+  if(photo){
+    if(nonEmpty(p.photo)){ photo.src=p.photo; photo.hidden=false; }
+    else photo.hidden=true;
+  }
+
+  setTextElement($("#prof-name-ko"),p.name_ko);
+  const enDegree=joinParts([p.name_en,p.degree],", ");
+  setTextElement($("#prof-name-en"),enDegree);
+  setTextElement($("#prof-position"),p.position);
+
+  const interests=cleanList(p.research_interests);
+  setHTMLOrHide($("#prof-chips"),interests.map(x=>`<span class="chip">${esc(x)}</span>`).join(""));
+
+  const email=$("#prof-email");
+  if(email){
+    const value=clean(p.email);
+    email.textContent=value; email.hidden=!value;
+    if(value) email.href=`mailto:${value}`; else email.removeAttribute("href");
+  }
+  setTextElement($("#prof-phone"),p.phone);
+
+  const education=(Array.isArray(p.education)?p.education:[])
+    .filter(x=>nonEmpty(x?.period)||nonEmpty(x?.institution)||nonEmpty(x?.degree)||nonEmpty(x?.major));
+  setHTMLOrHide($("#prof-education"),education.map(x=>{
+    const schoolDegree=joinParts([x.institution,x.degree]," ");
+    return `<div class="titem">
+      ${nonEmpty(x.period)?`<div class="tdate">${esc(x.period)}</div>`:""}
+      <div class="ttext">
+        ${schoolDegree?`<strong>${esc(schoolDegree)}</strong>`:""}
+        ${nonEmpty(x.major)?`<span>${esc(x.major)}</span>`:""}
+      </div>
+    </div>`;
+  }).join(""));
+
+  const career=cleanList(p.career);
+  setHTMLOrHide($("#prof-career"),career.map(x=>`<li>${esc(x)}</li>`).join(""));
+
+  // Research Interests 박스의 고정 문구도 CMS 연구분야와 동일하게 연결
+  const researchText=$("#prof-research-text");
+  if(researchText) setTextElement(researchText,interests.join(" · "));
+
+  const b=p.book || {};
+  const book=$("#prof-book");
+  if(book){
+    if(nonEmpty(b.title)||nonEmpty(b.year)||nonEmpty(b.role)){
+      const meta=joinParts([b.year,b.role]);
+      book.innerHTML=`<div class="book-icon"></div><div>
+        <div class="eyebrow">Book</div>
+        ${nonEmpty(b.title)?`<h3>${esc(b.title)}</h3>`:""}
+        ${meta?`<p>${esc(meta)}</p>`:""}
+      </div>`;
+      book.hidden=false;
+    }else{
+      book.innerHTML="";
+      book.hidden=true;
+    }
+  }
+}
 
 async function programPage(){
   await applySite();
-  const p=await loadJSON("data/program.json",{});
-  const roles=await loadJSON("data/roles.json",[]);
-  const curriculum=await loadJSON("data/curriculum.json",[]);
-  const training=await loadJSON("data/training.json",[]);
-  const conferences=await loadJSON("data/conferences.json",{});
-  const career=await loadJSON("data/career.json",{});
+  const p=await loadJSON("data/program.json",{}) || {};
+  const roles=await loadJSON("data/roles.json",[]) || [];
+  const curriculum=await loadJSON("data/curriculum.json",[]) || [];
+  const training=await loadJSON("data/training.json",[]) || [];
+  const conferences=await loadJSON("data/conferences.json",{}) || {};
+  const career=await loadJSON("data/career.json",{}) || {};
 
-  if($("#program-intro-title")) $("#program-intro-title").textContent=p.intro_title||"What is Clinical Neuropsychology?";
-  if($("#program-definition")) $("#program-definition").textContent=p.definition||"";
-  if($("#neuropsychology-definition")) $("#neuropsychology-definition").textContent=p.neuropsychology_definition||"";
-  if($("#target-diseases")) $("#target-diseases").innerHTML=(p.target_diseases||[]).map(x=>`<span class="chip">${esc(x)}</span>`).join("");
+  setTextElement($("#program-intro-title"),p.intro_title);
+  setTextElement($("#program-definition"),p.definition);
+  setTextElement($("#neuropsychology-definition"),p.neuropsychology_definition);
 
-  $("#role-grid").innerHTML=roles.map((x,i)=>`
-    <article class="card role-card"><div class="icon">${String(i+1).padStart(2,"0")}</div>
-    <h3>${esc(x.title)}</h3><div class="small-title">${esc(x.title_ko||"")}</div><p>${esc(x.description||"")}</p></article>`).join("");
+  const diseases=cleanList(p.target_diseases);
+  setHTMLOrHide($("#target-diseases"),diseases.map(x=>`<span class="chip">${esc(x)}</span>`).join(""));
 
-  $("#assessment-description").textContent=p.assessment_description||"";
-  $("#assessment-functions").innerHTML=(p.assessment_functions||[]).map(x=>`<li>${esc(x)}</li>`).join("");
-  $("#assessment-uses").innerHTML=(p.assessment_uses||[]).map(x=>`<li>${esc(x)}</li>`).join("");
+  const roleItems=roles.filter(x=>nonEmpty(x?.title)||nonEmpty(x?.title_ko)||nonEmpty(x?.description));
+  if($("#role-grid")){
+    $("#role-grid").innerHTML=roleItems.map((x,i)=>`
+      <article class="card role-card">
+        <div class="icon">${String(i+1).padStart(2,"0")}</div>
+        ${nonEmpty(x.title)?`<h3>${esc(x.title)}</h3>`:""}
+        ${nonEmpty(x.title_ko)?`<div class="small-title">${esc(x.title_ko)}</div>`:""}
+        ${nonEmpty(x.description)?`<p>${esc(x.description)}</p>`:""}
+      </article>`).join("");
+  }
 
-  $("#curriculum-table").innerHTML=curriculum.map(x=>`
-    <tr><td>${esc(x.code)}</td><td><strong>${esc(x.name_ko)}</strong></td><td>${esc(x.name_en)}</td></tr>`).join("");
+  setTextElement($("#assessment-description"),p.assessment_description);
+  const functions=cleanList(p.assessment_functions);
+  const uses=cleanList(p.assessment_uses);
+  setHTMLOrHide($("#assessment-functions"),functions.map(x=>`<li>${esc(x)}</li>`).join(""));
+  setHTMLOrHide($("#assessment-uses"),uses.map(x=>`<li>${esc(x)}</li>`).join(""));
 
-  $("#training-grid").innerHTML=training.map(x=>`
-    <article class="training-card"><div class="training-kicker">${esc(x.title)}</div>
-    <h3>${esc(x.title_ko)}</h3><div class="training-meta">${esc(x.frequency||"")}</div>
-    ${x.location?`<p class="training-place">${esc(x.location)}</p>`:""}
-    <ul>${(x.details||[]).map(v=>`<li>${esc(v)}</li>`).join("")}</ul></article>`).join("");
+  if($("#curriculum-table")){
+    $("#curriculum-table").innerHTML=curriculum
+      .filter(x=>nonEmpty(x?.code)||nonEmpty(x?.name_ko)||nonEmpty(x?.name_en))
+      .map(x=>`<tr>
+        <td>${esc(x.code)}</td>
+        <td>${nonEmpty(x.name_ko)?`<strong>${esc(x.name_ko)}</strong>`:""}</td>
+        <td>${esc(x.name_en)}</td>
+      </tr>`).join("");
+  }
 
-  $("#conference-domestic").innerHTML=(conferences.domestic||[]).map(x=>`<span class="conference-chip">${esc(x)}</span>`).join("");
-  $("#conference-international").innerHTML=(conferences.international||[]).map(x=>`<span class="conference-chip">${esc(x)}</span>`).join("");
+  if($("#training-grid")){
+    $("#training-grid").innerHTML=training
+      .filter(x=>nonEmpty(x?.title)||nonEmpty(x?.title_ko)||nonEmpty(x?.frequency)||nonEmpty(x?.location)||cleanList(x?.details).length)
+      .map(x=>{
+        const details=cleanList(x.details);
+        return `<article class="training-card">
+          ${nonEmpty(x.title)?`<div class="training-kicker">${esc(x.title)}</div>`:""}
+          ${nonEmpty(x.title_ko)?`<h3>${esc(x.title_ko)}</h3>`:""}
+          ${nonEmpty(x.frequency)?`<div class="training-meta">${esc(x.frequency)}</div>`:""}
+          ${nonEmpty(x.location)?`<p class="training-place">${esc(x.location)}</p>`:""}
+          ${details.length?`<ul>${details.map(v=>`<li>${esc(v)}</li>`).join("")}</ul>`:""}
+        </article>`;
+      }).join("");
+  }
 
-  $("#ideal-traits").innerHTML=(p.ideal_traits||[]).map(x=>`<li>${esc(x)}</li>`).join("");
-  $("#recommended-psychology").innerHTML=(p.recommended_psychology_courses||[]).map(x=>`<span class="course-chip">${esc(x)}</span>`).join("");
-  $("#recommended-clinical").innerHTML=(p.recommended_clinical_courses||[]).map(x=>`<span class="course-chip">${esc(x)}</span>`).join("");
+  const domestic=cleanList(conferences.domestic);
+  const international=cleanList(conferences.international);
+  setHTMLOrHide($("#conference-domestic"),domestic.map(x=>`<span class="conference-chip">${esc(x)}</span>`).join(""));
+  setHTMLOrHide($("#conference-international"),international.map(x=>`<span class="conference-chip">${esc(x)}</span>`).join(""));
 
-  $("#career-pathway").innerHTML=(career.pathway||[]).map((x,i)=>`
-    <div class="path-step"><div class="path-index">${i+1}</div><span>${esc(x)}</span></div>`).join("");
+  const traits=cleanList(p.ideal_traits);
+  const psych=cleanList(p.recommended_psychology_courses);
+  const clinical=cleanList(p.recommended_clinical_courses);
+  setHTMLOrHide($("#ideal-traits"),traits.map(x=>`<li>${esc(x)}</li>`).join(""));
+  setHTMLOrHide($("#recommended-psychology"),psych.map(x=>`<span class="course-chip">${esc(x)}</span>`).join(""));
+  setHTMLOrHide($("#recommended-clinical"),clinical.map(x=>`<span class="course-chip">${esc(x)}</span>`).join(""));
 
-  $("#career-destinations").innerHTML=(career.destinations||[]).map(x=>`
-    <article class="destination"><h3>${esc(x.category)}</h3><ul>${(x.items||[]).map(v=>`<li>${esc(v)}</li>`).join("")}</ul></article>`).join("");
+  const pathway=cleanList(career.pathway);
+  if($("#career-pathway")){
+    $("#career-pathway").innerHTML=pathway.map((x,i)=>`
+      <div class="path-step"><div class="path-index">${i+1}</div><span>${esc(x)}</span></div>`).join("");
+    $("#career-pathway").hidden=!pathway.length;
+  }
 
-  $("#consultation-note").textContent=p.consultation_note||"";
+  const destinations=(Array.isArray(career.destinations)?career.destinations:[])
+    .filter(x=>nonEmpty(x?.category)||cleanList(x?.items).length);
+  if($("#career-destinations")){
+    $("#career-destinations").innerHTML=destinations.map(x=>{
+      const items=cleanList(x.items);
+      return `<article class="destination">
+        ${nonEmpty(x.category)?`<h3>${esc(x.category)}</h3>`:""}
+        ${items.length?`<ul>${items.map(v=>`<li>${esc(v)}</li>`).join("")}</ul>`:""}
+      </article>`;
+    }).join("");
+    $("#career-destinations").hidden=!destinations.length;
+  }
+
+  setTextElement($("#consultation-note"),p.consultation_note);
+  const consultation=$("#consultation-note")?.closest(".consultation");
+  if(consultation) consultation.hidden=!nonEmpty(p.consultation_note);
 }
 
 async function publicationsPage(){
   await applySite();
-  const pubs=await loadJSON("data/publications.json",[]);
+  const pubs=await loadJSON("data/publications.json",[]) || [];
   const search=$("#pub-search"), cat=$("#pub-category");
-  const cats=[...new Set(pubs.map(x=>x.category).filter(Boolean))];
-  cat.innerHTML=`<option value="">전체 구분</option>`+cats.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join("");
+  const cats=[...new Set(pubs.map(x=>clean(x?.category)).filter(Boolean))];
+
+  if(cat) cat.innerHTML=`<option value="">전체 구분</option>`+cats.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join("");
+
   const render=()=>{
-    const q=(search.value||"").trim().toLowerCase(), c=cat.value;
-    const list=pubs.filter(x=>(!q||`${x.title} ${x.journal} ${x.date}`.toLowerCase().includes(q))&&(!c||x.category===c));
-    $("#pub-list").innerHTML=list.map(x=>`<div class="pub"><div class="pub-date">${esc(x.date)}</div><div><div class="pub-title">${esc(x.title)}</div><div class="pub-meta">${esc(x.journal)}</div></div><span class="tag">${esc(x.category||"")}</span></div>`).join("")||emptyBlock("검색 결과가 없습니다.","다른 검색어를 입력해 주세요.");
+    const q=clean(search?.value).toLowerCase(), c=cat?.value || "";
+    const list=pubs.filter(x=>
+      (!q||`${text(x?.title)} ${text(x?.journal)} ${text(x?.date)}`.toLowerCase().includes(q))
+      &&(!c||x.category===c)
+    );
+
+    if($("#pub-list")){
+      $("#pub-list").innerHTML=list.map(x=>`
+        <div class="pub">
+          ${nonEmpty(x.date)?`<div class="pub-date">${esc(x.date)}</div>`:"<div></div>"}
+          <div>
+            ${nonEmpty(x.title)?`<div class="pub-title">${esc(x.title)}</div>`:""}
+            ${nonEmpty(x.journal)?`<div class="pub-meta">${esc(x.journal)}</div>`:""}
+          </div>
+          ${nonEmpty(x.category)?`<span class="tag">${esc(x.category)}</span>`:""}
+        </div>`).join("") || emptyBlock("검색 결과가 없습니다.","다른 검색어를 입력해 주세요.");
+    }
   };
-  search.addEventListener("input",render); cat.addEventListener("change",render); render();
+
+  search?.addEventListener("input",render);
+  cat?.addEventListener("change",render);
+  render();
 }
 
 async function peoplePage(){
   await applySite();
-  const members=await loadJSON("data/members.json",[]);
+  const members=await loadJSON("data/members.json",[]) || [];
   const root=$("#member-grid");
-  if(!members.length){root.innerHTML=emptyBlock("구성원 정보를 준비 중입니다.","Pages CMS에서 구성원을 추가하면 이 페이지에 자동으로 표시됩니다.");return;}
-  root.innerHTML=members.map(x=>`<article class="member"><div class="member-photo">${x.photo?`<img src="${esc(x.photo)}" alt="${esc(x.name)}">`:""}</div><div class="member-body"><h3>${esc(x.name)}</h3><div class="member-role">${esc(x.role)}</div><p>${esc(x.interests||"")}</p>${x.email?`<p style="margin-top:8px"><a href="mailto:${esc(x.email)}">${esc(x.email)}</a></p>`:""}</div></article>`).join("");
+  if(!root) return;
+
+  if(!members.length){
+    root.innerHTML=emptyBlock("구성원 정보를 준비 중입니다.","Pages CMS에서 구성원을 추가하면 이 페이지에 자동으로 표시됩니다.");
+    return;
+  }
+
+  root.innerHTML=members.map(x=>`
+    <article class="member">
+      ${nonEmpty(x.photo)?`<div class="member-photo"><img src="${esc(x.photo)}" alt="${esc(x.name)}"></div>`:""}
+      <div class="member-body">
+        ${nonEmpty(x.name)?`<h3>${esc(x.name)}</h3>`:""}
+        ${nonEmpty(x.role)?`<div class="member-role">${esc(x.role)}</div>`:""}
+        ${nonEmpty(x.interests)?`<p>${esc(x.interests)}</p>`:""}
+        ${nonEmpty(x.email)?`<p style="margin-top:8px"><a href="mailto:${esc(x.email)}">${esc(x.email)}</a></p>`:""}
+      </div>
+    </article>`).join("");
 }
 
 async function newsPage(){
   await applySite();
-  const items=await loadJSON("data/news.json",[]);
-  $("#news-grid").innerHTML=items.map(x=>newsCard(x,true)).join("")||emptyBlock("등록된 소식이 없습니다.","Pages CMS에서 새 소식을 추가할 수 있습니다.");
-}
-
-async function resourcesPage(){
-  await applySite();
-  const items=await loadJSON("data/resources.json",[]);
-  const root=$("#resource-list");
-  if(!items.length){root.innerHTML=emptyBlock("등록된 자료가 없습니다.","관리자 화면에서 PDF·문서 파일을 업로드하면 이곳에 표시됩니다.");return;}
-  root.innerHTML=items.map(x=>`<article class="resource"><div class="file-icon">↓</div><div><h3>${esc(x.title)}</h3><p>${esc(x.description||"")}</p></div><a class="btn secondary" href="${esc(x.file)}" target="_blank" rel="noopener">파일 열기</a></article>`).join("");
+  const items=await loadJSON("data/news.json",[]) || [];
+  if($("#news-grid")){
+    $("#news-grid").innerHTML=items.map(x=>newsCard(x,true)).join("")
+      || emptyBlock("등록된 소식이 없습니다.","Pages CMS에서 새 소식을 추가할 수 있습니다.");
+  }
 }
 
 async function contactPage(){
-  const s=await applySite();
-  if(s.map_image){
-    if($("#campus-map")) $("#campus-map").src=s.map_image;
-    if($("#map-large")) $("#map-large").src=s.map_image;
-  }
-  const p=await loadJSON("data/program.json",{});
+  await applySite();
+  const p=await loadJSON("data/program.json",{}) || {};
   const note=$("#contact-consultation");
-  if(note) note.textContent=p.consultation_note||"";
-  initMapViewer();
+  if(note){
+    setTextElement(note,p.consultation_note);
+    const box=note.closest(".consultation");
+    if(box) box.hidden=!nonEmpty(p.consultation_note);
+  }
+  initExternalMap();
 }
 
-function initMapViewer(){
-  const preview=$("#map-preview"), modal=$("#map-modal"), img=$("#map-large");
-  if(!preview||!modal||!img) return;
+function initExternalMap(){
+  const preview=$("#map-preview");
+  const openButton=$("#map-open-button");
+  const modal=$("#map-modal");
+  if(!preview||!modal) return;
 
-  let scale=1;
-  let x=0, y=0;
-  let dragging=false, startX=0, startY=0;
-
-  const clamp=(v,min,max)=>Math.min(max,Math.max(min,v));
-  const render=()=>{
-    img.style.transform=`translate(${x}px,${y}px) scale(${scale})`;
-    const reset=$("#map-reset");
-    if(reset) reset.textContent=`${Math.round(scale*100)}%`;
-  };
-  const reset=()=>{ scale=1; x=0; y=0; render(); };
-  const zoom=(delta)=>{
-    scale=clamp(scale+delta,0.7,3);
-    if(scale<=1){ x=0; y=0; }
-    render();
-  };
   const open=()=>{
     modal.classList.add("open");
     modal.setAttribute("aria-hidden","false");
     document.body.classList.add("map-open");
-    reset();
   };
   const close=()=>{
     modal.classList.remove("open");
@@ -242,42 +451,34 @@ function initMapViewer(){
   };
 
   preview.addEventListener("click",open);
-  preview.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();open();} });
+  openButton?.addEventListener("click",e=>{
+    e.stopPropagation();
+    open();
+  });
+  preview.addEventListener("keydown",e=>{
+    if(e.key==="Enter"||e.key===" "){
+      e.preventDefault();
+      open();
+    }
+  });
   $$("[data-map-close]",modal).forEach(el=>el.addEventListener("click",close));
-  $("#map-plus")?.addEventListener("click",()=>zoom(.2));
-  $("#map-minus")?.addEventListener("click",()=>zoom(-.2));
-  $("#map-reset")?.addEventListener("click",reset);
-
-  $("#map-stage")?.addEventListener("wheel",e=>{
-    e.preventDefault();
-    zoom(e.deltaY<0?.12:-.12);
-  },{passive:false});
-
-  img.addEventListener("pointerdown",e=>{
-    if(scale<=1) return;
-    dragging=true; startX=e.clientX-x; startY=e.clientY-y;
-    img.setPointerCapture(e.pointerId);
-    img.classList.add("dragging");
-  });
-  img.addEventListener("pointermove",e=>{
-    if(!dragging) return;
-    x=e.clientX-startX; y=e.clientY-startY; render();
-  });
-  img.addEventListener("pointerup",e=>{
-    dragging=false; img.classList.remove("dragging");
-    try{img.releasePointerCapture(e.pointerId)}catch(_){}
-  });
-
   document.addEventListener("keydown",e=>{
-    if(!modal.classList.contains("open")) return;
-    if(e.key==="Escape") close();
-    if(e.key==="+") zoom(.2);
-    if(e.key==="-") zoom(-.2);
-    if(e.key==="0") reset();
+    if(e.key==="Escape"&&modal.classList.contains("open")) close();
   });
 }
+
 document.addEventListener("DOMContentLoaded",()=>{
-  initNav(); initYear();
+  initNav();
+  initYear();
   const page=document.body.dataset.page;
-  ({home:homePage,research:researchPage,professor:professorPage,program:programPage,publications:publicationsPage,people:peoplePage,news:newsPage,resources:resourcesPage,contact:contactPage}[page]||applySite)();
+  ({
+    home:homePage,
+    research:researchPage,
+    professor:professorPage,
+    program:programPage,
+    publications:publicationsPage,
+    people:peoplePage,
+    news:newsPage,
+    contact:contactPage
+  }[page]||applySite)();
 });
