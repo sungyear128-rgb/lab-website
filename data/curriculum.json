@@ -1,0 +1,47 @@
+[
+  {
+    "code": "G01140",
+    "name_ko": "신경심리평가",
+    "name_en": "Neuropsychological Assessment"
+  },
+  {
+    "code": "G04172",
+    "name_ko": "고급임상신경심리학",
+    "name_en": "Advanced Clinical Neuropsychology"
+  },
+  {
+    "code": "G04178",
+    "name_ko": "노년신경심리학",
+    "name_en": "Geriatric Neuropsychology"
+  },
+  {
+    "code": "G90117",
+    "name_ko": "신경심리학세미나",
+    "name_en": "Seminar on Neuropsychology"
+  },
+  {
+    "code": "G04228",
+    "name_ko": "신경심리검사 제작세미나",
+    "name_en": "Seminar on Neuropsychological Test Construction"
+  },
+  {
+    "code": "G04229",
+    "name_ko": "뇌와 인지",
+    "name_en": "Brain & Cognition"
+  },
+  {
+    "code": "G04231",
+    "name_ko": "전두엽과 고등인지기능",
+    "name_en": "Frontal Lobe and Higher Cognitive Functions"
+  },
+  {
+    "code": "G04232",
+    "name_ko": "임상신경심리학 현장실습",
+    "name_en": "Practicum in Clinical Neuropsychology"
+  },
+  {
+    "code": "G90571",
+    "name_ko": "고급임상신경심리평가",
+    "name_en": "Advanced Clinical Neuropsychological Assessment"
+  }
+]

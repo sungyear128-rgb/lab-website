@@ -73,12 +73,22 @@ async function researchPage(){
   await applySite();
   const areas=await loadJSON("data/research.json",[]);
   const projects=await loadJSON("data/projects.json",[]);
+  const topics=await loadJSON("data/research_topics.json",[]);
   $("#research-grid").innerHTML=areas.map((x,i)=>`
     <article class="card"><div class="icon">${String(i+1).padStart(2,"0")}</div>
     <h3>${esc(x.title)}</h3><p style="color:#2b6de0;font-size:.8rem;font-weight:800;margin:-3px 0 10px">${esc(x.title_ko||"")}</p><p>${esc(x.description)}</p></article>`).join("");
   $("#project-grid").innerHTML=projects.map(x=>`
     <article class="project"><div class="meta">${esc(x.start_year)} · ${esc(x.status)}</div>
     <h3>${esc(x.title)}</h3><p>${esc(x.description)}</p></article>`).join("");
+  const topicRoot=$("#research-topics");
+  if(topicRoot){
+    topicRoot.innerHTML=topics.map((x,i)=>`
+      <article class="topic-card">
+        <div class="topic-num">${String(i+1).padStart(2,"0")}</div>
+        <div><h3>${esc(x.category)}</h3>
+        ${(x.examples||[]).length?`<ul>${x.examples.map(v=>`<li>${esc(v)}</li>`).join("")}</ul>`:`<p>관련 연구를 수행합니다.</p>`}</div>
+      </article>`).join("");
+  }
 }
 
 async function professorPage(){
@@ -95,6 +105,53 @@ async function professorPage(){
   $("#prof-career").innerHTML=(p.career||[]).map(x=>`<li>${esc(x)}</li>`).join("");
   const b=p.book||{};
   $("#prof-book").innerHTML=b.title?`<div class="book-icon"></div><div><div class="eyebrow">Book</div><h3>${esc(b.title)}</h3><p>${esc(b.year)} · ${esc(b.role)}</p></div>`:"";
+}
+
+
+async function programPage(){
+  await applySite();
+  const p=await loadJSON("data/program.json",{});
+  const roles=await loadJSON("data/roles.json",[]);
+  const curriculum=await loadJSON("data/curriculum.json",[]);
+  const training=await loadJSON("data/training.json",[]);
+  const conferences=await loadJSON("data/conferences.json",{});
+  const career=await loadJSON("data/career.json",{});
+
+  $("#program-definition").textContent=p.definition||"";
+  $("#neuropsychology-definition").textContent=p.neuropsychology_definition||"";
+  $("#target-diseases").innerHTML=(p.target_diseases||[]).map(x=>`<span class="chip">${esc(x)}</span>`).join("");
+
+  $("#role-grid").innerHTML=roles.map((x,i)=>`
+    <article class="card role-card"><div class="icon">${String(i+1).padStart(2,"0")}</div>
+    <h3>${esc(x.title)}</h3><div class="small-title">${esc(x.title_ko||"")}</div><p>${esc(x.description||"")}</p></article>`).join("");
+
+  $("#assessment-description").textContent=p.assessment_description||"";
+  $("#assessment-functions").innerHTML=(p.assessment_functions||[]).map(x=>`<li>${esc(x)}</li>`).join("");
+  $("#assessment-uses").innerHTML=(p.assessment_uses||[]).map(x=>`<li>${esc(x)}</li>`).join("");
+
+  $("#curriculum-table").innerHTML=curriculum.map(x=>`
+    <tr><td>${esc(x.code)}</td><td><strong>${esc(x.name_ko)}</strong></td><td>${esc(x.name_en)}</td></tr>`).join("");
+
+  $("#training-grid").innerHTML=training.map(x=>`
+    <article class="training-card"><div class="training-kicker">${esc(x.title)}</div>
+    <h3>${esc(x.title_ko)}</h3><div class="training-meta">${esc(x.frequency||"")}</div>
+    ${x.location?`<p class="training-place">${esc(x.location)}</p>`:""}
+    <ul>${(x.details||[]).map(v=>`<li>${esc(v)}</li>`).join("")}</ul></article>`).join("");
+
+  $("#conference-domestic").innerHTML=(conferences.domestic||[]).map(x=>`<span class="conference-chip">${esc(x)}</span>`).join("");
+  $("#conference-international").innerHTML=(conferences.international||[]).map(x=>`<span class="conference-chip">${esc(x)}</span>`).join("");
+
+  $("#ideal-traits").innerHTML=(p.ideal_traits||[]).map(x=>`<li>${esc(x)}</li>`).join("");
+  $("#recommended-psychology").innerHTML=(p.recommended_psychology_courses||[]).map(x=>`<span class="course-chip">${esc(x)}</span>`).join("");
+  $("#recommended-clinical").innerHTML=(p.recommended_clinical_courses||[]).map(x=>`<span class="course-chip">${esc(x)}</span>`).join("");
+
+  $("#career-pathway").innerHTML=(career.pathway||[]).map((x,i)=>`
+    <div class="path-step"><div class="path-index">${i+1}</div><span>${esc(x)}</span></div>`).join("");
+
+  $("#career-destinations").innerHTML=(career.destinations||[]).map(x=>`
+    <article class="destination"><h3>${esc(x.category)}</h3><ul>${(x.items||[]).map(v=>`<li>${esc(v)}</li>`).join("")}</ul></article>`).join("");
+
+  $("#consultation-note").textContent=p.consultation_note||"";
 }
 
 async function publicationsPage(){
@@ -136,9 +193,12 @@ async function resourcesPage(){
 async function contactPage(){
   const s=await applySite();
   if(s.map_image) $("#campus-map").src=s.map_image;
+  const p=await loadJSON("data/program.json",{});
+  const note=$("#contact-consultation");
+  if(note) note.textContent=p.consultation_note||"";
 }
 document.addEventListener("DOMContentLoaded",()=>{
   initNav(); initYear();
   const page=document.body.dataset.page;
-  ({home:homePage,research:researchPage,professor:professorPage,publications:publicationsPage,people:peoplePage,news:newsPage,resources:resourcesPage,contact:contactPage}[page]||applySite)();
+  ({home:homePage,research:researchPage,professor:professorPage,program:programPage,publications:publicationsPage,people:peoplePage,news:newsPage,resources:resourcesPage,contact:contactPage}[page]||applySite)();
 });

@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Clinical Practicum",
+    "title_ko": "임상신경심리학 임상현장실습",
+    "frequency": "2학기부터 4학기까지 · 주 1회",
+    "location": "한림대학교 춘천성심병원 신경과 신경심리실",
+    "details": [
+      "뇌손상 및 신경질환 환자의 신경심리평가 시행",
+      "평가 보고서 작성",
+      "지도교수 supervision"
+    ]
+  },
+  {
+    "title": "Neuropsychology Case Conference",
+    "title_ko": "신경심리 사례회의",
+    "frequency": "격주",
+    "location": "지도교수 및 전공 대학원생 참여",
+    "details": [
+      "임상적으로 중요한 신경심리 환자 사례 논의"
+    ]
+  },
+  {
+    "title": "Lab Meeting",
+    "title_ko": "랩미팅",
+    "frequency": "주 1회",
+    "location": "연구실",
+    "details": [
+      "진행 중인 연구 상태 점검",
+      "진행 중인 연구와 관련된 최신 논문 읽기 및 토론"
+    ]
+  }
+]

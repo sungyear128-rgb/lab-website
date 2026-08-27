@@ -7,6 +7,7 @@
 - `index.html` — Home
 - `research.html` — Research
 - `professor.html` — Professor
+- `program.html` — Program & Training
 - `publications.html` — Publications
 - `people.html` — People
 - `news.html` — News
@@ -62,3 +63,24 @@ HTML/CSS 코드는 디자인입니다.
 - PDF/문서: `assets/docs`
 
 Pages CMS에서 업로드하면 지정 폴더에 저장됩니다.
+
+
+## Program & Training (v2 추가)
+
+2025 대학원 설명회 내용을 기반으로 아래 항목을 추가했습니다.
+
+- 임상신경심리학 / 신경심리학 소개
+- 신경심리평가 영역과 활용
+- 신경심리학적 개입·치료, 연구, 교육·수련감독
+- 전공 교과목 전체
+- 임상현장실습
+- Neuropsychology Case Conference
+- 주 1회 Lab Meeting
+- 국내외 학회
+- 전공 적합 특성 및 대학원 전 추천 과목
+- 졸업 후 수련 경로 및 진출 분야
+- Research 페이지의 구체적 연구 주제·예시
+- 대학원 상담 및 문의 안내
+
+위 내용은 `data/program.json`, `roles.json`, `curriculum.json`, `training.json`,
+`conferences.json`, `career.json`, `research_topics.json`에서 관리되며 Pages CMS에서 수정할 수 있습니다.
