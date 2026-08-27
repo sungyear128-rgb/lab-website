@@ -25,24 +25,18 @@
       <li><a href="professor.html" data-nav="professor">Professor</a></li>
       <li><a href="program.html" data-nav="program">Program</a></li>
       <li><a href="publications.html" data-nav="publications">Publications</a></li>
-      <li><a href="people.html" data-nav="people">Members</a></li>
+      <li><a href="people.html" data-nav="people">People</a></li>
       <li><a href="news.html" data-nav="news">News</a></li>
-      
+      <li><a href="resources.html" data-nav="resources">Resources</a></li>
       <li><a href="contact.html" data-nav="contact">Contact</a></li>
     </ul>
   </div>
 </nav>
 
 <header class="page-hero"><div class="container"><div class="eyebrow">Contact</div><h1>Contact & Directions</h1><p>한림대학교 임상심리실험실 위치와 연락처입니다.</p></div></header>
-<section><div class="container contact-grid"><div class="contact-dark"><h2>Contact</h2><p><span data-site="lab_name_ko"></span><br><span data-site="room_name"></span></p><div class="citem"><strong>Email</strong><a data-site-mail></a></div><div class="citem"><strong>Phone</strong><a data-site-phone></a></div><div class="citem"><strong>Room</strong><span data-site="room"></span></div></div><div class="route"><div class="eyebrow">Directions</div><h3>오시는 길</h3><p><strong data-site="address"></strong><br><span data-site="room"></span></p><div class="route-note"><strong>찾아오시는 방법</strong><br><span data-site="directions"></span></div><div class="consultation"><strong>대학원 상담 및 문의</strong><br><span id="contact-consultation"></span></div><div class="external-map-preview" id="map-preview" tabindex="0" role="button" aria-label="한림대학교 지도 크게 보기">
-        <iframe
-          src="https://www.google.com/maps?q=Hallym+University,+1+Hallymdaehak-gil,+Chuncheon-si,+Gangwon-do,+South+Korea&output=embed"
-          title="한림대학교 위치 지도"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          tabindex="-1"></iframe>
-        <button class="map-open-button" type="button" id="map-open-button">지도 크게 보기 ↗</button>
-      </div>
+<section><div class="container contact-grid"><div class="contact-dark"><h2>Contact</h2><p><span data-site="lab_name_ko"></span><br><span data-site="room_name"></span></p><div class="citem"><strong>Email</strong><a data-site-mail></a></div><div class="citem"><strong>Phone</strong><a data-site-phone></a></div><div class="citem"><strong>Room</strong><span data-site="room"></span></div></div><div class="route"><div class="eyebrow">Directions</div><h3>오시는 길</h3><p><strong data-site="address"></strong><br><span data-site="room"></span></p><div class="route-note"><strong>찾아오시는 방법</strong><br><span data-site="directions"></span></div><div class="consultation"><strong>대학원 상담 및 문의</strong><br><span id="contact-consultation"></span></div><div class="map map-interactive" id="map-preview" tabindex="0" role="button" aria-label="캠퍼스 지도 크게 보기">
+        <img id="campus-map" src="assets/images/hallym-campus-map.webp" alt="한림대학교 캠퍼스 지도">
+        <div class="map-hover-label">클릭하여 크게 보기 ↗</div>
       </div></div></div></section>
 
 
@@ -61,9 +55,9 @@
           <a href="professor.html">Professor</a>
           <a href="program.html">Program</a>
           <a href="publications.html">Publications</a>
-          <a href="people.html">Members</a>
+          <a href="people.html">People</a>
           <a href="news.html">News</a>
-          
+          <a href="resources.html">Resources</a>
           <a href="contact.html">Contact</a>
         </div>
       </div>
@@ -82,22 +76,24 @@
 
 <div class="map-modal" id="map-modal" aria-hidden="true">
   <div class="map-modal-backdrop" data-map-close></div>
-  <div class="map-modal-panel external-map-panel" role="dialog" aria-modal="true" aria-label="한림대학교 지도">
+  <div class="map-modal-panel" role="dialog" aria-modal="true" aria-label="한림대학교 캠퍼스 지도">
     <div class="map-modal-header">
       <div>
-        <strong>한림대학교 · 오시는 길</strong>
-        <span>지도 안에서 + / − 확대·축소와 드래그 이동을 사용할 수 있습니다.</span>
+        <strong>한림대학교 캠퍼스 지도</strong>
+        <span>마우스 휠 또는 + / − 버튼으로 확대·축소할 수 있습니다.</span>
       </div>
       <button class="map-control close" type="button" data-map-close aria-label="지도 닫기">×</button>
     </div>
-    <div class="external-map-large">
-      <iframe
-        src="https://www.google.com/maps?q=Hallym+University,+1+Hallymdaehak-gil,+Chuncheon-si,+Gangwon-do,+South+Korea&output=embed"
-        title="한림대학교 위치 지도 확대 보기"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <div class="map-stage" id="map-stage">
+      <img id="map-large" src="assets/images/hallym-campus-map.webp" alt="한림대학교 캠퍼스 지도 확대 보기">
+    </div>
+    <div class="map-controls">
+      <button class="map-control" type="button" id="map-minus" aria-label="축소">−</button>
+      <button class="map-control reset" type="button" id="map-reset">100%</button>
+      <button class="map-control" type="button" id="map-plus" aria-label="확대">+</button>
     </div>
   </div>
 </div>
+
 </body>
 </html>
