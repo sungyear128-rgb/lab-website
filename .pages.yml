@@ -115,6 +115,136 @@ content:
           - { name: title, label: 과제명, type: string, required: true }
           - { name: description, label: 설명, type: text }
 
+      - name: research_topics
+        label: 연구 주제 및 예시
+        type: file
+        path: data/research_topics.json
+        format: json
+        list: true
+        fields:
+          - { name: category, label: 연구 주제, type: string, required: true }
+          - name: examples
+            label: 연구 예시
+            type: string
+            list: true
+
+  - name: program_group
+    label: 전공 / 교육·수련
+    type: group
+    items:
+      - name: program
+        label: 전공 소개 및 지원자 안내
+        type: file
+        path: data/program.json
+        format: json
+        fields:
+          - { name: intro_title, label: 전공 소개 제목, type: string }
+          - { name: definition, label: 임상신경심리학 정의, type: text }
+          - { name: neuropsychology_definition, label: 신경심리학 정의, type: text }
+          - name: target_diseases
+            label: 주요 연구·임상 대상
+            type: string
+            list: true
+          - { name: assessment_description, label: 신경심리평가 설명, type: text }
+          - name: assessment_functions
+            label: 평가하는 인지기능
+            type: string
+            list: true
+          - name: assessment_uses
+            label: 평가 결과 활용
+            type: string
+            list: true
+          - name: ideal_traits
+            label: 전공에 잘 맞는 특성
+            type: string
+            list: true
+          - name: recommended_psychology_courses
+            label: 대학원 전 추천 핵심 심리학 과목
+            type: string
+            list: true
+          - name: recommended_clinical_courses
+            label: 대학원 전 추천 임상 관련 과목
+            type: string
+            list: true
+          - { name: consultation_note, label: 대학원 상담 안내, type: text }
+
+      - name: roles
+        label: 전공 후 수행하는 일
+        type: file
+        path: data/roles.json
+        format: json
+        list: true
+        fields:
+          - { name: title, label: 영문 제목, type: string }
+          - { name: title_ko, label: 한글 제목, type: string }
+          - { name: description, label: 설명, type: text }
+
+      - name: curriculum
+        label: 전공 교과목
+        type: file
+        path: data/curriculum.json
+        format: json
+        list: true
+        fields:
+          - { name: code, label: 코드번호, type: string }
+          - { name: name_ko, label: 교과목명, type: string, required: true }
+          - { name: name_en, label: 영문 교과목명, type: string }
+
+      - name: training
+        label: 대학원 활동 / 수련
+        type: file
+        path: data/training.json
+        format: json
+        list: true
+        fields:
+          - { name: title, label: 영문 제목, type: string }
+          - { name: title_ko, label: 한글 제목, type: string, required: true }
+          - { name: frequency, label: 주기 / 기간, type: string }
+          - { name: location, label: 장소 / 참여자, type: string }
+          - name: details
+            label: 세부 내용
+            type: string
+            list: true
+
+      - name: conferences
+        label: 참여 학회
+        type: file
+        path: data/conferences.json
+        format: json
+        fields:
+          - name: domestic
+            label: 국내 학회
+            type: string
+            list: true
+          - name: international
+            label: 국외 학회
+            type: string
+            list: true
+
+      - name: career
+        label: 수련 및 진로
+        type: file
+        path: data/career.json
+        format: json
+        fields:
+          - name: pathway
+            label: 졸업 후 수련 경로
+            type: string
+            list: true
+          - name: destinations
+            label: 진출 분야
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{category}"
+            fields:
+              - { name: category, label: 분야, type: string, required: true }
+              - name: items
+                label: 세부 진출처
+                type: string
+                list: true
+
   - name: people
     label: 구성원
     type: file
