@@ -105,930 +105,54 @@ footer{background:#081a2e;color:#fff;padding:52px 0 26px}.footer-grid{display:gr
   margin-top:16px;padding-top:15px;border-top:1px solid var(--line);
   color:#536176;font-size:.84rem;line-height:1.75;white-space:normal
 }
+
 /* =========================================================
-   Layout refinement v1
-   - Consistent horizontal alignment
-   - Equal card rhythm
-   - Cleaner section heading grid
-   - Better large-screen proportions
+   MEMBERS / RESOURCES / EXTERNAL MAP UPDATE
    ========================================================= */
 
-/* Global reading rhythm */
-body{
-  word-break:keep-all;
-  overflow-wrap:break-word;
-}
-.container{
-  width:min(1240px,calc(100% - 56px));
-}
-section{
-  padding:104px 0;
-}
-
-/* Navigation */
-.nav-inner{
-  min-height:82px;
-}
-.menu{
-  gap:22px;
-}
-.menu a{
-  display:flex;
-  align-items:center;
-  min-height:82px;
-  padding:0;
-}
-.menu a.active:after{
-  bottom:17px;
-}
-
-/* Home hero: stronger left/right alignment */
-.hero-grid{
-  min-height:640px;
-  grid-template-columns:minmax(0,1.04fr) minmax(390px,.86fr);
-  gap:76px;
-  padding:76px 0;
-}
-.hero-grid > div:first-child{
-  max-width:650px;
-}
-.hero h1{
-  max-width:640px;
-  margin:17px 0 24px;
-}
-.hero .lead{
-  max-width:610px;
-  line-height:1.8;
-}
-.sublead{
-  margin-top:2px;
-}
-.visual{
-  width:100%;
-  max-width:470px;
-  min-height:410px;
-  justify-self:end;
-}
-
-/* Four key areas under hero */
-.stats{
-  align-items:stretch;
-}
-.stat{
-  min-height:104px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  padding:24px 28px;
-}
-.stat strong{
-  line-height:1.15;
-  margin-bottom:7px;
-}
-.stat span{
-  line-height:1.35;
-}
-
-/* Section titles and their explanatory text now share a fixed grid */
-.section-head{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(320px,500px);
-  align-items:start;
-  column-gap:72px;
-  row-gap:14px;
-  margin-bottom:38px;
-}
-.section-head > div{
-  min-width:0;
-}
-.section-head h2{
-  margin-top:9px;
-}
-.section-head > p{
-  justify-self:end;
-  width:100%;
-  max-width:500px;
-  padding-top:27px;
-  line-height:1.8;
-}
-
-/* Cards: identical top/bottom rhythm */
-.grid3,
-.grid2{
-  align-items:stretch;
-}
-.grid3 > .card,
-.grid2 > .card{
-  height:100%;
-  display:flex;
-  flex-direction:column;
-}
-.grid3 > .card{
-  min-height:242px;
-}
-.grid2 > .card{
-  min-height:225px;
-}
-.card{
-  padding:31px 30px 29px;
-}
-.card .icon{
-  flex:0 0 auto;
-  margin-bottom:22px;
-}
-.grid3 > .card h3{
-  min-height:2.75em;
-  display:flex;
-  align-items:flex-end;
-}
-.card h3{
-  line-height:1.35;
-  margin-bottom:10px;
-}
-.card p{
-  line-height:1.7;
-}
-
-/* Project cards */
-.grid2 > .project{
-  height:100%;
-}
-.project{
-  min-height:245px;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-start;
-  padding:32px 32px 30px;
-}
-.project h3{
-  margin-top:14px;
-  margin-bottom:12px;
-  line-height:1.5;
-}
-.project p{
-  margin-top:auto;
-  line-height:1.7;
-}
-
-/* Page hero */
-.page-hero{
-  padding:92px 0 76px;
-}
-.page-hero p{
-  line-height:1.8;
-}
-
-/* Professor page */
-.pi-grid{
-  grid-template-columns:minmax(320px,.72fr) minmax(0,1.28fr);
-  gap:64px;
-}
-.pi-info{
-  min-width:0;
-}
-.info-grid{
-  align-items:stretch;
-}
-.info-box{
-  height:100%;
-}
-
-/* Publications */
-.pub{
-  grid-template-columns:94px minmax(0,1fr) auto;
-  gap:24px;
-  padding:23px 0;
-}
-.pub-title{
-  line-height:1.55;
-}
-.pub-meta{
-  margin-top:6px;
-}
-
-/* People / news */
-.member-grid,
-.news-grid{
-  align-items:stretch;
-}
-.member,
-.news-card{
-  height:100%;
-}
-.member-body,
-.news-body{
-  padding:24px;
-}
-
-/* Program page */
-.program-intro{
-  align-items:stretch;
-  gap:24px;
-}
-.definition-box,
-.assessment-box{
-  height:100%;
-}
-.training-grid{
-  align-items:stretch;
-}
-.training-card{
-  height:100%;
-  display:flex;
-  flex-direction:column;
-}
-.training-card ul{
-  margin-top:auto;
-  padding-top:13px;
-}
-.conference-panel,
-.student-panel,
-.destination{
-  height:100%;
-}
-.curriculum-table th,
-.curriculum-table td{
-  vertical-align:middle;
-  line-height:1.55;
-}
-
-/* Research topics */
-.topic-card{
-  align-items:start;
-}
-.topic-card h3{
-  line-height:1.45;
-}
-
-/* Contact */
-.contact-grid{
-  align-items:stretch;
-}
-.contact-dark,
-.route{
-  height:100%;
-}
-
-/* Footer */
-.footer-grid{
-  align-items:start;
-}
-
-/* Large desktop: keep content substantial instead of looking tiny and scattered */
-@media(min-width:1500px){
-  .container{
-    width:min(1280px,calc(100% - 80px));
-  }
-  .hero-grid{
-    min-height:660px;
-    gap:88px;
-  }
-  .visual{
-    max-width:490px;
-  }
-}
-
-/* Tablet */
-@media(max-width:1000px){
-  .container{
-    width:min(100% - 40px,1240px);
-  }
-  .hero-grid{
-    grid-template-columns:1fr;
-    gap:42px;
-  }
-  .hero-grid > div:first-child{
-    max-width:760px;
-  }
-  .visual{
-    justify-self:start;
-    max-width:560px;
-  }
-  .section-head{
-    grid-template-columns:1fr;
-    row-gap:15px;
-  }
-  .section-head > p{
-    justify-self:start;
-    max-width:700px;
-    padding-top:0;
-  }
-  .pi-grid{
-    grid-template-columns:1fr;
-    gap:38px;
-  }
-}
-
-/* Mobile */
-@media(max-width:760px){
-  .container{
-    width:min(100% - 28px,1240px);
-  }
-  section{
-    padding:70px 0;
-  }
-  .nav-inner{
-    min-height:68px;
-  }
-  .menu a{
-    min-height:auto;
-  }
-  .hero-grid{
-    padding:55px 0;
-    gap:34px;
-  }
-  .hero h1{
-    font-size:2.65rem;
-  }
-  .visual{
-    min-height:320px;
-  }
-  .stat{
-    min-height:92px;
-    padding:19px 16px;
-  }
-  .section-head{
-    margin-bottom:30px;
-  }
-  .grid3 > .card h3{
-    min-height:0;
-    display:block;
-  }
-  .grid3 > .card,
-  .grid2 > .card,
-  .project{
-    min-height:0;
-  }
-  .pub{
-    grid-template-columns:64px minmax(0,1fr);
-    gap:14px;
-  }
-}
-/* =========================================================
-   Academic alignment refinement v2
-   Inspired by clean university/lab information hierarchy
-   ========================================================= */
-
-:root{
-  --content-max:1180px;
-  --section-y:88px;
-  --heading-gap:14px;
-  --block-gap:32px;
-}
-
-/* ---------- Global text rhythm ---------- */
-body{
-  line-height:1.72;
-  letter-spacing:-0.012em;
-}
-.container{
-  width:min(var(--content-max),calc(100% - 48px));
-}
-section{
-  padding:var(--section-y) 0;
-}
-p{
-  line-height:1.75;
-}
-
-/* ---------- Header / navigation ---------- */
-.nav-inner{
-  min-height:76px;
-}
-.brand{
-  flex:0 0 auto;
-}
-.brand strong{
-  line-height:1.25;
-}
-.brand span{
-  margin-top:1px;
-  line-height:1.35;
-}
-.menu{
-  gap:20px;
-}
-.menu a{
-  min-height:76px;
-  font-size:.86rem;
-  white-space:nowrap;
-}
-.menu a.active:after{
-  bottom:14px;
-}
-
-/* ---------- Hero ----------
-   Keep the text and visual on one stable baseline.
-*/
-.hero-grid{
-  min-height:590px;
-  grid-template-columns:minmax(0,1.08fr) minmax(360px,.82fr);
-  gap:68px;
-  padding:66px 0;
-}
-.hero-grid > div:first-child{
-  max-width:620px;
-}
-.hero .eyebrow{
-  margin-bottom:0;
-}
-.hero h1{
-  max-width:610px;
-  font-size:clamp(3rem,4.55vw,4.65rem);
-  line-height:1.04;
-  margin:16px 0 20px;
-}
-.hero .lead{
-  max-width:590px;
-  margin-bottom:8px;
-  line-height:1.72;
-}
-.sublead{
-  margin:0 0 26px;
-  line-height:1.55;
-}
-.actions{
-  margin-top:0;
-}
-.visual{
-  max-width:455px;
-  min-height:390px;
-  justify-self:end;
-  align-self:center;
-}
-
-/* ---------- Key areas ----------
-   Same text baseline and same amount of internal whitespace.
-*/
-.stat{
-  min-height:96px;
-  padding:22px 26px;
-  justify-content:center;
-}
-.stat strong{
-  font-size:1.3rem;
-  margin-bottom:5px;
-}
-.stat span{
-  line-height:1.35;
-}
-
-/* ---------- Section heading system ----------
-   IMPORTANT: title + description are one vertical block.
-   This removes the 'left title / right floating paragraph' feeling.
-*/
-.section-head{
-  display:block;
-  margin-bottom:34px;
-  max-width:760px;
-}
-.section-head > div{
-  width:100%;
-}
-.section-head .eyebrow{
-  margin-bottom:0;
-}
-.section-head h2{
-  margin:9px 0 0;
-  font-size:clamp(2rem,2.8vw,2.8rem);
-  line-height:1.13;
-  letter-spacing:-.04em;
-}
-.section-head > p{
-  width:auto;
-  max-width:680px;
-  padding-top:0;
-  margin:15px 0 0;
-  line-height:1.72;
-  color:#6a7688;
-}
-
-/* Right-side button can sit separately without disturbing text hierarchy */
-.section-head > a.btn{
-  margin-top:18px;
-}
-
-/* ---------- Card systems ---------- */
-.grid3,
-.grid2,
-.member-grid,
-.news-grid{
-  gap:20px;
-}
-.card{
-  padding:28px 28px 27px;
-}
-.grid3 > .card{
-  min-height:224px;
-}
-.grid2 > .card{
-  min-height:214px;
-}
-.card .icon{
-  margin-bottom:20px;
-}
-.grid3 > .card h3{
-  min-height:2.65em;
-  align-items:flex-start;
-}
-.card h3{
-  font-size:1.12rem;
-  line-height:1.4;
-  margin-bottom:9px;
-}
-.card p{
-  font-size:.88rem;
-  line-height:1.7;
-}
-
-/* ---------- Current projects ---------- */
-.project{
-  min-height:230px;
-  padding:29px 30px 27px;
-}
-.project .meta{
-  margin-bottom:10px;
-}
-.project h3{
-  margin:0 0 13px;
-  line-height:1.48;
-  font-size:1.14rem;
-}
-.project p{
-  margin-top:auto;
-  font-size:.84rem;
-  line-height:1.68;
-}
-
-/* ---------- Page hero ----------
-   Same vertical rhythm on Research / Program / Professor / etc.
-*/
-.page-hero{
-  padding:76px 0 62px;
-}
-.page-hero .container{
-  max-width:var(--content-max);
-}
-.page-hero h1{
-  margin:11px 0 13px;
-  font-size:clamp(2.55rem,4.4vw,4.25rem);
-}
-.page-hero p{
-  max-width:680px;
-  line-height:1.72;
-}
-
-/* ---------- Professor ---------- */
-.pi-grid{
-  grid-template-columns:minmax(300px,380px) minmax(0,1fr);
-  gap:58px;
-}
-.pi-photo{
-  max-width:380px;
-}
-.pi-info h2{
-  margin:10px 0 5px;
-}
-.en-name{
-  margin-bottom:13px;
-}
-.position{
-  margin-bottom:21px;
-}
-.info-grid{
-  gap:16px;
-}
-.info-box{
-  padding:20px 21px;
-}
-
-/* ---------- Publications ---------- */
-.toolbar{
-  margin-bottom:22px;
-}
-.pub{
-  grid-template-columns:86px minmax(0,1fr) auto;
-  padding:20px 0;
-}
-.pub-title{
-  line-height:1.5;
-}
-.pub-meta{
-  margin-top:5px;
-}
-
-/* ---------- Program page ---------- */
-.program-intro{
-  grid-template-columns:1fr 1fr;
-  gap:20px;
-}
-.definition-box,
-.assessment-box{
-  padding:29px;
-}
-.definition-box h2{
-  margin:9px 0 14px;
-  font-size:1.75rem;
-}
-.two-list{
-  gap:14px;
-  margin-top:18px;
-}
-.list-panel{
-  padding:16px;
-}
-.training-grid{
-  gap:18px;
-}
-.training-card{
-  padding:24px;
-}
-.conference-grid{
-  gap:18px;
-}
-.students-grid{
-  gap:20px;
-}
-.student-panel{
-  padding:25px;
-}
-.pathway{
-  gap:12px;
-}
-.path-step{
-  min-height:104px;
-  padding:18px 13px;
-}
-.destination-grid{
-  gap:12px;
-  margin-top:22px;
-}
-.destination{
-  padding:19px;
-}
-
-/* ---------- Research topic list ---------- */
-.topic-list{
-  gap:14px;
-}
-.topic-card{
-  padding:21px 22px;
-  gap:16px;
-}
-.topic-card h3{
-  margin-bottom:6px;
-}
-
-/* ---------- People / News ---------- */
-.member-body,
-.news-body{
-  padding:22px;
-}
-.member h3,
-.news-card h3{
-  line-height:1.4;
-}
-.news-card h3{
-  margin:7px 0 8px;
-}
-
-/* ---------- Contact ---------- */
-.contact-grid{
-  gap:22px;
-}
-.contact-dark,
-.route{
-  padding:31px;
-}
-
-/* ---------- Footer ---------- */
-footer{
-  padding-top:46px;
-}
-.footer-grid{
-  gap:40px;
-}
-.copyright{
-  margin-top:26px;
-}
-
-/* ---------- Large desktop ---------- */
-@media(min-width:1450px){
-  .container{
-    width:min(1220px,calc(100% - 72px));
-  }
-  .hero-grid{
-    min-height:610px;
-  }
-}
-
-/* ---------- Tablet ---------- */
-@media(max-width:1000px){
-  :root{
-    --section-y:76px;
-  }
-  .container{
-    width:min(100% - 40px,var(--content-max));
-  }
-  .hero-grid{
-    grid-template-columns:1fr;
-    min-height:auto;
-    gap:38px;
-    padding:58px 0 62px;
-  }
-  .hero-grid > div:first-child{
-    max-width:680px;
-  }
-  .visual{
-    justify-self:start;
-    max-width:500px;
-  }
-  .section-head{
-    max-width:720px;
-  }
-  .pi-grid{
-    grid-template-columns:1fr;
-    gap:34px;
-  }
-  .pi-photo{
-    max-width:360px;
-  }
-}
-
-/* ---------- Mobile ---------- */
-@media(max-width:760px){
-  :root{
-    --section-y:64px;
-  }
-  .container{
-    width:min(100% - 28px,var(--content-max));
-  }
-  .nav-inner{
-    min-height:66px;
-  }
-  .hero-grid{
-    padding:50px 0 54px;
-    gap:30px;
-  }
-  .hero h1{
-    font-size:2.52rem;
-    line-height:1.06;
-  }
-  .visual{
-    min-height:300px;
-  }
-  .section-head{
-    margin-bottom:27px;
-  }
-  .section-head h2{
-    font-size:2rem;
-  }
-  .section-head > p{
-    margin-top:12px;
-  }
-  .grid3,
-  .grid2,
-  .member-grid,
-  .news-grid{
-    gap:14px;
-  }
-  .card,
-  .project{
-    padding:23px;
-  }
-  .program-intro{
-    grid-template-columns:1fr;
-  }
-}
-/* =========================================================
-   FINAL CONSISTENCY PACK
-   ========================================================= */
-
-/* 1) Unified academic hierarchy: title -> description -> content */
-.section-head{
-  max-width:760px !important;
-  display:block !important;
-  margin-bottom:32px !important;
-}
-.section-head > p{
-  max-width:680px !important;
-  margin:13px 0 0 !important;
-  padding-top:0 !important;
-  justify-self:start !important;
-}
-
-/* Buttons that live inside section headings stay below text */
-.section-head > a.btn{
-  margin-top:18px;
-}
-
-/* 2) Tighter, more even vertical spacing across the site */
-section{
-  padding-top:84px;
-  padding-bottom:84px;
-}
-.hero + .stats-wrap{
-  margin-top:0;
-}
-.program-promo{
-  margin-top:0;
-}
-
-/* 3) Consistent equal-height card rhythm */
-.grid3,
-.grid2,
-.member-grid,
-.news-grid,
-.training-grid,
-.destination-grid{
-  align-items:stretch;
-}
-.card,
-.project,
-.member,
-.news-card,
-.training-card,
-.destination{
-  height:100%;
-}
-
-/* 4) Home: single news card should not look stranded */
-#home-news:has(.news-card:only-child){
-  grid-template-columns:minmax(280px,360px);
-}
-#home-news:has(.news-card:only-child) .news-card{
-  max-width:360px;
-}
-
-/* 5) Empty-state pages: center the message in the available width */
-.member-grid > .empty,
-.resource-list > .empty{
-  width:min(100%,760px);
-  margin:0 auto;
-}
-.member-grid > .empty{
-  grid-column:1 / -1;
-}
-
-/* 6) Footer is identical on every page and slightly denser */
-.footer-grid{
-  grid-template-columns:1.35fr .8fr .75fr;
-  gap:46px;
-}
-.footer-links{
-  grid-template-columns:1fr 1fr;
-  column-gap:24px;
-  row-gap:6px;
-}
-
-/* 7) Contact panel alignment */
-.contact-grid{
-  grid-template-columns:minmax(280px,.72fr) minmax(0,1.28fr);
-  align-items:stretch;
-}
-.contact-dark,
-.route{
-  height:100%;
-}
-
-/* 8) Interactive map preview */
-.map-interactive{
+.external-map-preview{
   position:relative;
+  height:270px;
+  margin-top:22px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:#eef3f8;
+  box-shadow:0 10px 28px rgba(11,35,64,.07);
   cursor:zoom-in;
-  isolation:isolate;
 }
-.map-interactive img{
-  transition:transform .28s ease,filter .28s ease;
-}
-.map-interactive:hover img{
-  transform:scale(1.025);
-  filter:brightness(.96);
-}
-.map-hover-label{
-  position:absolute;
-  right:12px;
-  bottom:12px;
-  padding:8px 11px;
-  border-radius:10px;
-  background:rgba(8,26,46,.88);
-  color:white;
-  font-size:.72rem;
-  font-weight:800;
-  opacity:0;
-  transform:translateY(4px);
-  transition:.2s;
+.external-map-preview iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
   pointer-events:none;
 }
-.map-interactive:hover .map-hover-label,
-.map-interactive:focus .map-hover-label{
-  opacity:1;
-  transform:translateY(0);
+.external-map-preview::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(8,26,46,.10),transparent 42%);
+  pointer-events:none;
 }
+.map-open-button{
+  position:absolute;
+  right:14px;
+  bottom:14px;
+  z-index:2;
+  border:0;
+  border-radius:11px;
+  padding:10px 14px;
+  background:rgba(8,26,46,.92);
+  color:#fff;
+  font-size:.76rem;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(8,26,46,.20);
+}
+.map-open-button:hover{background:#0b2340}
 
-/* 9) Full-screen map viewer */
-body.map-open{
-  overflow:hidden;
-}
+body.map-open{overflow:hidden}
 .map-modal{
   position:fixed;
   inset:0;
@@ -1038,22 +162,20 @@ body.map-open{
   justify-content:center;
   padding:28px;
 }
-.map-modal.open{
-  display:flex;
-}
+.map-modal.open{display:flex}
 .map-modal-backdrop{
   position:absolute;
   inset:0;
   background:rgba(3,14,27,.76);
   backdrop-filter:blur(6px);
 }
-.map-modal-panel{
+.external-map-panel{
   position:relative;
   z-index:1;
-  width:min(1180px,96vw);
-  height:min(760px,90vh);
+  width:min(1240px,96vw);
+  height:min(820px,92vh);
   display:grid;
-  grid-template-rows:auto minmax(0,1fr) auto;
+  grid-template-rows:auto minmax(0,1fr);
   background:#fff;
   border-radius:22px;
   overflow:hidden;
@@ -1079,85 +201,96 @@ body.map-open{
   color:var(--muted);
   font-size:.76rem;
 }
-.map-stage{
-  position:relative;
-  overflow:hidden;
-  background:#edf2f7;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.map-stage img{
-  max-width:100%;
-  max-height:100%;
-  width:auto;
-  height:auto;
-  user-select:none;
-  touch-action:none;
-  transform-origin:center center;
-  cursor:grab;
-  transition:transform .08s linear;
-}
-.map-stage img.dragging{
-  cursor:grabbing;
-  transition:none;
-}
-.map-controls{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding:12px;
-  border-top:1px solid var(--line);
-  background:#fff;
-}
-.map-control{
-  min-width:42px;
+.map-control.close{
+  flex:0 0 42px;
+  width:42px;
   height:40px;
-  padding:0 12px;
   border:1px solid var(--line);
   border-radius:10px;
   background:#fff;
   color:var(--navy);
-  font-weight:850;
+  font-size:1.35rem;
+  font-weight:800;
   cursor:pointer;
 }
-.map-control:hover{
-  border-color:#a8c5ed;
-  background:var(--sky);
+.external-map-large{
+  min-height:0;
+  background:#edf2f7;
 }
-.map-control.reset{
-  min-width:72px;
-  font-size:.78rem;
-}
-.map-control.close{
-  flex:0 0 42px;
-  font-size:1.35rem;
+.external-map-large iframe{
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
 }
 
-/* 10) Smaller screens */
-@media(max-width:1000px){
-  .footer-links{
-    grid-template-columns:1fr;
-  }
-  .contact-grid{
-    grid-template-columns:1fr;
-  }
-}
 @media(max-width:760px){
-  section{
-    padding-top:64px;
-    padding-bottom:64px;
-  }
-  .map-modal{
-    padding:12px;
-  }
-  .map-modal-panel{
+  .external-map-preview{height:230px}
+  .map-modal{padding:12px}
+  .external-map-panel{
     width:100%;
-    height:88vh;
+    height:90vh;
     border-radius:17px;
   }
-  .map-modal-header span{
-    display:none;
+  .map-modal-header span{display:none}
+}
+
+[hidden]{display:none !important;}
+/* =========================================================
+   HERO BRAIN IMAGE UPDATE
+   Final original AI-generated neuroscience visual
+   ========================================================= */
+
+.hero-brain-card{
+  position:relative;
+  min-height:420px;
+  aspect-ratio:1 / 1;
+  width:min(100%,470px);
+  justify-self:end;
+  overflow:hidden;
+  border-radius:34px;
+  background:linear-gradient(145deg,#071d3b,#123c74 58%,#2768df);
+  box-shadow:
+    0 30px 70px rgba(11,35,64,.24),
+    0 1px 0 rgba(255,255,255,.15) inset;
+}
+
+.hero-brain-image{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  object-position:center;
+  transform:scale(1.035);
+  transition:transform .45s ease, filter .45s ease;
+}
+
+.hero-brain-card:hover .hero-brain-image{
+  transform:scale(1.065);
+  filter:brightness(1.025);
+}
+
+/* Retire the old SVG/label treatment on the home hero. */
+.hero-brain-card svg,
+.hero-brain-card .visual-label{
+  display:none !important;
+}
+
+@media(max-width:1000px){
+  .hero-brain-card{
+    justify-self:start;
+    width:min(100%,500px);
+    min-height:0;
+  }
+}
+
+@media(max-width:760px){
+  .hero-brain-card{
+    width:100%;
+    max-width:460px;
+    min-height:0;
+    border-radius:26px;
   }
 }
