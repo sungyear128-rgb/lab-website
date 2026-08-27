@@ -1,0 +1,39 @@
+{
+  "name_ko": "진주희",
+  "name_en": "Ju Hee Chin",
+  "degree": "Ph.D.",
+  "position": "한림대학교 심리학과 부교수 / 리더십성장부장",
+  "email": "jhchin@hallym.ac.kr",
+  "phone": "033-248-1724",
+  "photo": "assets/images/professor-ju-hee-chin.png",
+  "research_interests": [
+    "임상신경심리학",
+    "치매",
+    "인지기능 평가 및 조기 진단",
+    "노화"
+  ],
+  "education": [
+    {
+      "period": "2005.03 ~ 2011.02",
+      "degree": "박사",
+      "institution": "연세대학교",
+      "major": "임상심리"
+    },
+    {
+      "period": "1997.03 ~ 1999.09",
+      "degree": "석사",
+      "institution": "연세대학교",
+      "major": "임상심리"
+    }
+  ],
+  "career": [
+    "전) 삼성서울병원 신경과 신경심리실 임상심리전문가 / 수련감독자",
+    "전) 성균관대학교 심리학과 겸임교수",
+    "전) 미국 미시건 대학교 병원 정신과 방문 연구원"
+  ],
+  "book": {
+    "year": "2024",
+    "title": "Clinical Disorders of Social Cognition",
+    "role": "공동"
+  }
+}

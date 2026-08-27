@@ -1,117 +1,64 @@
-# 우리 연구실 홈페이지
+# Hallym Clinical Neuropsychology Website
 
-## 📖 소개
+한림대학교 일반대학원 임상신경심리전공용 GitHub Pages + Pages CMS 홈페이지입니다.
 
-이것은 연구실의 공식 홈페이지입니다. 연구실의 정보, 팀, 연구 프로젝트, 논문, 뉴스 등을 소개합니다.
+## 사이트 구조
 
-## 🌐 페이지 구조
+- `index.html` — Home
+- `research.html` — Research
+- `professor.html` — Professor
+- `publications.html` — Publications
+- `people.html` — People
+- `news.html` — News
+- `resources.html` — Resources / 파일 자료실
+- `contact.html` — Contact & Directions
+- `data/` — 관리자 화면에서 수정하는 실제 콘텐츠
+- `assets/images/` — 이미지
+- `assets/docs/` — PDF/문서 업로드 폴더
+- `.pages.yml` — Pages CMS 관리자 설정
 
-- **index.html** - 홈페이지
-- **research.html** - 연구 프로젝트 소개
-- **people.html** - 팀 멤버 소개
-- **publications.html** - 논문 및 발표 자료
-- **news.html** - 최근 소식
-- **contact.html** - 연락처 및 문의 양식
+## GitHub에 올리는 방법
 
-## 📁 폴더 구조
+현재 `lab-website` 저장소의 파일을 이 폴더의 내용으로 교체합니다.
+중요: ZIP 파일 자체를 올리는 것이 아니라 ZIP을 푼 뒤 **안의 파일과 폴더 전체**를 저장소 루트에 올려야 합니다.
 
-```
-lab-website/
-├── index.html              # 홈페이지
-├── research.html           # 연구 페이지
-├── people.html             # 팀 페이지
-├── publications.html       # 논문 페이지
-├── news.html               # 뉴스 페이지
-├── contact.html            # 연락처 페이지
-├── css/
-│   └── style.css           # 메인 스타일시트
-├── images/                 # 이미지 폴더
-│   ├── lab-main.jpg        # 메인 배너 이미지
-│   ├── professor.jpg       # 교수 사진
-│   └── members/            # 팀 멤버 이미지
-└── README.md               # 이 파일
-```
+GitHub Pages:
+1. Settings
+2. Pages
+3. Source: Deploy from a branch
+4. Branch: `main`
+5. Folder: `/(root)`
+6. Save
 
-## 🎨 기능
+## Pages CMS 연결
 
-- ✅ 반응형 디자인 (모바일, 태블릿, 데스크톱)
-- ✅ 현대적이고 전문적인 디자인
-- ✅ 쉬운 네비게이션
-- ✅ 동적인 호버 효과
-- ✅ 문의 양식
-- ✅ 검색 엔진 최적화 (SEO)
+1. https://app.pagescms.org 접속
+2. GitHub로 로그인
+3. Pages CMS GitHub App 설치
+4. `sungyear128-rgb/lab-website` 저장소 선택
+5. 저장소 루트의 `.pages.yml`을 자동으로 읽으면 관리자 메뉴가 나타납니다.
 
-## 🚀 시작하기
+관리자 화면에서 수정 가능한 항목:
+- 연구실 기본 정보
+- 교수님 프로필 및 사진
+- 연구 분야
+- 연구 과제
+- 구성원 및 사진
+- 논문
+- 연구실 소식 및 이미지
+- 자료실 PDF/문서 업로드
 
-### 필수 요구사항
-- 웹 브라우저 (Chrome, Firefox, Safari, Edge 등)
-- 텍스트 에디터 (VS Code, Sublime Text 등)
+저장하면 Pages CMS가 GitHub 저장소의 JSON/미디어 파일을 수정합니다.
+GitHub Pages 배포 후 홈페이지에 자동 반영됩니다.
 
-### 설치 및 실행
+## 중요한 점
 
-1. 저장소 클론
-```bash
-git clone https://github.com/sungyear128-rgb/lab-website.git
-```
+HTML/CSS 코드는 디자인입니다.
+평소 운영할 때는 HTML 코드를 수정하지 말고 Pages CMS에서 `data/*.json`과 이미지만 수정하면 됩니다.
 
-2. 폴더로 이동
-```bash
-cd lab-website
-```
+## 사진 및 파일
 
-3. index.html을 웹 브라우저로 열기
-   - 또는 로컬 서버 실행
-   ```bash
-   # Python 3
-   python -m http.server 8000
-   
-   # Python 2
-   python -m SimpleHTTPServer 8000
-   ```
-   그 후 `http://localhost:8000` 접속
+- 사진: `assets/images`
+- PDF/문서: `assets/docs`
 
-## 📝 커스터마이징
-
-### 텍스트 수정
-- 각 HTML 파일을 텍스트 에디터로 열어 내용을 수정할 수 있습니다.
-
-### 색상 변경
-- `css/style.css` 파일에서 색상 코드를 변경합니다.
-- 주요 색상: `#667eea` (파란색), `#764ba2` (보라색)
-
-### 이미지 추가
-- `images/` 폴더에 이미지를 추가하고 HTML 파일에서 참조합니다.
-
-## 🌍 배포
-
-### GitHub Pages를 통한 무료 배포
-
-1. GitHub 저장소 설정 가기
-2. Settings → Pages
-3. Source: "Deploy from a branch" 선택
-4. Branch: "main" 선택
-5. Save 클릭
-
-홈페이지가 자동으로 배포됩니다: `https://sungyear128-rgb.github.io/lab-website`
-
-## 🔧 기술 스택
-
-- **HTML5** - 마크업
-- **CSS3** - 스타일링 (플렉스박스, 그리드)
-- **JavaScript** - 상호작용 (추가 예정)
-
-## 📧 연락처
-
-연락처 페이지를 통해 문의할 수 있습니다: `contact.html`
-
-## 📄 라이선스
-
-MIT License - 자유롭게 사용, 수정, 배포 가능합니다.
-
-## 🙏 기여
-
-버그 리포트나 개선 사항이 있으시면 이슈를 등록해주세요.
-
----
-
-**마지막 업데이트**: 2024년 8월 26일
+Pages CMS에서 업로드하면 지정 폴더에 저장됩니다.

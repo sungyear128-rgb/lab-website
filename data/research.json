@@ -1,0 +1,20 @@
+[
+  {
+    "order": 1,
+    "title": "Clinical Neuropsychology",
+    "title_ko": "임상신경심리학",
+    "description": "신경심리학적 평가와 임상 자료를 바탕으로 인지기능 및 행동 특성의 임상적 의미를 탐색합니다."
+  },
+  {
+    "order": 2,
+    "title": "Dementia & Cognitive Impairment",
+    "title_ko": "치매 및 인지장애",
+    "description": "경도인지장애 및 치매를 포함한 신경인지장애의 인지적 특징과 조기 진단에 관한 연구를 수행합니다."
+  },
+  {
+    "order": 3,
+    "title": "Cognitive Assessment",
+    "title_ko": "인지기능 평가",
+    "description": "기억력과 사회인지 등을 포함한 인지기능 평가도구의 개발 및 임상적 유용성을 검증합니다."
+  }
+]

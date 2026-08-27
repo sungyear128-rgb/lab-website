@@ -1,96 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>팀 - 우리 연구실</title>
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="한림대학교 일반대학원 임상신경심리전공">
+<title>People | Clinical Neuropsychology · Hallym University</title>
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
-    <!-- 네비게이션 바 -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="logo">우리 연구실</div>
-            <ul class="nav-menu">
-                <li><a href="index.html">홈</a></li>
-                <li><a href="research.html">연구</a></li>
-                <li><a href="people.html" class="active">팀</a></li>
-                <li><a href="publications.html">논문</a></li>
-                <li><a href="news.html">뉴스</a></li>
-                <li><a href="contact.html">연락처</a></li>
-            </ul>
-        </div>
-    </nav>
+<body data-page="people">
 
-    <!-- 페이지 제목 -->
-    <section class="page-header">
-        <div class="container">
-            <h1>우리 팀</h1>
-            <p>뛰어난 연구원들로 구성된 팀</p>
-        </div>
-    </section>
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="index.html">
+      <div class="mark">CN</div>
+      <div><strong data-site="lab_name_en">Clinical Neuropsychology</strong><span data-site="school_en">Hallym University Graduate School</span></div>
+    </a>
+    <button class="menu-btn" aria-label="메뉴 열기">☰</button>
+    <ul class="menu"><li><a href="index.html" class="">Home</a></li><li><a href="research.html" class="">Research</a></li><li><a href="professor.html" class="">Professor</a></li><li><a href="publications.html" class="">Publications</a></li><li><a href="people.html" class="active">People</a></li><li><a href="news.html" class="">News</a></li><li><a href="resources.html" class="">Resources</a></li><li><a href="contact.html" class="">Contact</a></li></ul>
+  </div>
+</nav>
 
-    <!-- 팀 멤버 -->
-    <section class="team-section">
-        <div class="container">
-            <h2>연구실 구성원</h2>
-            <div class="grid grid-3">
-                <div class="team-card">
-                    <div class="member-image">👨‍🎓</div>
-                    <h3>김교수</h3>
-                    <p class="position">교수 / 연구실장</p>
-                    <p class="bio">20년 경력의 연구원으로 AI와 데이터 과학 분야의 전문가입니다.</p>
-                    <p class="email">kim@university.edu</p>
-                </div>
-                <div class="team-card">
-                    <div class="member-image">👩‍🔬</div>
-                    <h3>이박사</h3>
-                    <p class="position">박사 연구원</p>
-                    <p class="bio">머신러닝과 클라우드 컴퓨팅 분야에서 활발한 연구를 진행 중입니다.</p>
-                    <p class="email">lee@university.edu</p>
-                </div>
-                <div class="team-card">
-                    <div class="member-image">👨‍💻</div>
-                    <h3>박석사</h3>
-                    <p class="position">석사 과정 학생</p>
-                    <p class="bio">데이터 분석 및 소프트웨어 개발에 관심이 있습니다.</p>
-                    <p class="email">park@university.edu</p>
-                </div>
-                <div class="team-card">
-                    <div class="member-image">👩‍💼</div>
-                    <h3>정인턴</h3>
-                    <p class="position">인턴 연구원</p>
-                    <p class="bio">웹 개발과 데이터베이스 최적화 프로젝트를 돕고 있습니다.</p>
-                    <p class="email">jung@university.edu</p>
-                </div>
-                <div class="team-card">
-                    <div class="member-image">👨‍🏫</div>
-                    <h3>최강사</h3>
-                    <p class="position">강사 / 객원연구원</p>
-                    <p class="bio">사이버 보안과 암호화 기술의 전문가입니다.</p>
-                    <p class="email">choi@university.edu</p>
-                </div>
-                <div class="team-card">
-                    <div class="member-image">👩‍🎓</div>
-                    <h3>우석사</h3>
-                    <p class="position">석사 과정 학생</p>
-                    <p class="bio">네트워크 프로토콜 연구에 참여하고 있습니다.</p>
-                    <p class="email">woo@university.edu</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<header class="page-hero"><div class="container"><div class="eyebrow">People</div><h1>Lab Members</h1><p>연구실 구성원을 소개합니다.</p></div></header>
+<section><div class="container"><div class="member-grid" id="member-grid"></div></div></section>
 
-    <!-- 푸터 -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 우리 연구실. All rights reserved.</p>
-            <div class="social-links">
-                <a href="#">Facebook</a>
-                <a href="#">Twitter</a>
-                <a href="#">LinkedIn</a>
-            </div>
-        </div>
-    </footer>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div><h3 data-site="lab_name_en">Clinical Neuropsychology</h3><p><span data-site="lab_name_ko">한림대학교 일반대학원 임상신경심리전공</span><br><span data-site="school_en">Hallym University Graduate School</span></p></div>
+      <div><h3>Explore</h3><div class="footer-links"><a href="research.html">Research</a><a href="professor.html">Professor</a><a href="publications.html">Publications</a><a href="people.html">People</a></div></div>
+      <div><h3>Contact</h3><p><span data-site="room">사회경영 1관 5층 10526호</span><br><a data-site-mail href="mailto:jhchin@hallym.ac.kr">jhchin@hallym.ac.kr</a><br><a data-site-phone href="tel:0332481724">033-248-1724</a></p></div>
+    </div>
+    <div class="copyright">© <span class="current-year">2026</span> Clinical Neuropsychology, Hallym University. All rights reserved.</div>
+  </div>
+</footer>
+<script src="assets/js/app.js"></script>
+
 </body>
 </html>
