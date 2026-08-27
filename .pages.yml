@@ -1,0 +1,180 @@
+media:
+  - name: images
+    label: Images
+    input: assets/images
+    output: assets/images
+    categories: [image]
+    rename: safe
+  - name: documents
+    label: Documents
+    input: assets/docs
+    output: assets/docs
+    categories: [document, spreadsheet, compressed]
+    rename: safe
+
+content:
+  - name: basics
+    label: 기본 정보
+    type: group
+    items:
+      - name: site
+        label: 연구실 기본 정보
+        type: file
+        path: data/site.json
+        format: json
+        fields:
+          - { name: lab_name_ko, label: 연구실/전공 한글명, type: string, required: true }
+          - { name: lab_name_en, label: 영문명, type: string, required: true }
+          - { name: school_en, label: 학교 영문명, type: string }
+          - { name: room_name, label: 연구실 방 이름, type: string }
+          - { name: hero_eyebrow, label: 메인 상단 문구, type: string }
+          - { name: hero_title_before, label: 메인 제목 앞부분, type: string }
+          - { name: hero_title_highlight, label: 메인 제목 강조 단어, type: string }
+          - { name: hero_title_after, label: 메인 제목 뒷부분, type: string }
+          - { name: hero_description, label: 메인 소개문, type: text }
+          - { name: hero_keywords, label: 핵심 연구 키워드, type: string }
+          - { name: address, label: 주소, type: string }
+          - { name: room, label: 호실, type: string }
+          - { name: directions, label: 찾아오는 방법, type: text }
+          - { name: email, label: 대표 이메일, type: string }
+          - { name: phone, label: 대표 전화, type: string }
+          - name: map_image
+            label: 캠퍼스 지도
+            type: image
+            options: { media: images }
+
+      - name: professor
+        label: 교수님 프로필
+        type: file
+        path: data/professor.json
+        format: json
+        fields:
+          - { name: name_ko, label: 성함, type: string, required: true }
+          - { name: name_en, label: 영문명, type: string }
+          - { name: degree, label: 학위 표기, type: string }
+          - { name: position, label: 소속/직위, type: string }
+          - { name: email, label: 이메일, type: string }
+          - { name: phone, label: 연락처, type: string }
+          - name: photo
+            label: 프로필 사진
+            type: image
+            options: { media: images }
+          - name: research_interests
+            label: 연구 분야
+            type: string
+            list: true
+          - name: education
+            label: 학력
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{period} · {institution}"
+            fields:
+              - { name: period, label: 기간, type: string }
+              - { name: degree, label: 학위, type: string }
+              - { name: institution, label: 학교, type: string }
+              - { name: major, label: 전공, type: string }
+          - name: career
+            label: 주요 경력
+            type: string
+            list: true
+          - name: book
+            label: 주요 저서
+            type: object
+            fields:
+              - { name: year, label: 연도, type: string }
+              - { name: title, label: 제목, type: string }
+              - { name: role, label: 역할, type: string }
+
+  - name: research_group
+    label: 연구
+    type: group
+    items:
+      - name: research
+        label: 연구 분야
+        type: file
+        path: data/research.json
+        format: json
+        list: true
+        fields:
+          - { name: order, label: 순서, type: number }
+          - { name: title, label: 영문 제목, type: string, required: true }
+          - { name: title_ko, label: 한글 제목, type: string }
+          - { name: description, label: 설명, type: text }
+
+      - name: projects
+        label: 연구 과제
+        type: file
+        path: data/projects.json
+        format: json
+        list: true
+        fields:
+          - { name: start_year, label: 시작 연도, type: string }
+          - { name: status, label: 상태, type: string }
+          - { name: title, label: 과제명, type: string, required: true }
+          - { name: description, label: 설명, type: text }
+
+  - name: people
+    label: 구성원
+    type: file
+    path: data/members.json
+    format: json
+    list: true
+    fields:
+      - { name: name, label: 이름, type: string, required: true }
+      - { name: role, label: 과정/직위, type: string }
+      - { name: interests, label: 연구 관심 분야, type: text }
+      - { name: email, label: 이메일, type: string }
+      - name: photo
+        label: 사진
+        type: image
+        options: { media: images }
+
+  - name: publications
+    label: 논문
+    type: file
+    path: data/publications.json
+    format: json
+    list: true
+    fields:
+      - { name: date, label: 연월, type: string, required: true, description: "예: 2026.01" }
+      - { name: title, label: 논문 제목, type: text, required: true }
+      - { name: journal, label: 학술지, type: string }
+      - name: category
+        label: 구분
+        type: select
+        options:
+          values: [국내전문, 국제전문, 기타]
+
+  - name: news
+    label: 연구실 소식
+    type: file
+    path: data/news.json
+    format: json
+    list: true
+    fields:
+      - { name: date, label: 날짜, type: date, required: true }
+      - { name: title, label: 제목, type: string, required: true }
+      - { name: summary, label: 요약, type: text }
+      - { name: body, label: 내용, type: text }
+      - name: image
+        label: 대표 이미지
+        type: image
+        options: { media: images }
+
+  - name: resources
+    label: 자료실
+    type: file
+    path: data/resources.json
+    format: json
+    list: true
+    fields:
+      - { name: title, label: 자료명, type: string, required: true }
+      - { name: description, label: 설명, type: text }
+      - name: file
+        label: 첨부 파일
+        type: file
+        required: true
+        options:
+          media: documents
