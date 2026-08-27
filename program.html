@@ -16,10 +16,19 @@
       <div><strong data-site="lab_name_en">Clinical Neuropsychology</strong><span data-site="school_en">Hallym University Graduate School</span></div>
     </a>
     <button class="menu-btn" aria-label="메뉴 열기">☰</button>
-    <ul class="menu"><li><a href="index.html" class="">Home</a></li><li><a href="research.html">Research</a></li><li><a href="professor.html" class="">Professor</a></li><li><a href="program.html" class="active">Program</a></li><li><a href="publications.html" class="">Publications</a></li><li><a href="people.html" class="">People</a></li><li><a href="news.html" class="">News</a></li><li><a href="resources.html" class="">Resources</a></li><li><a href="contact.html" class="">Contact</a></li></ul>
+    <ul class="menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="professor.html">Professor</a></li>
+      <li><a href="program.html" class="active">Program</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="people.html">People</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="resources.html">Resources</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
   </div>
 </nav>
-
 
 <header class="page-hero">
   <div class="container">
@@ -32,9 +41,13 @@
 <section>
   <div class="container">
     <div class="section-head">
-      <div><div class="eyebrow">About the Field</div><h2>임상신경심리학이란?</h2></div>
+      <div>
+        <div class="eyebrow">About the Field</div>
+        <h2 id="program-intro-title">What is Clinical Neuropsychology?</h2>
+      </div>
       <p>뇌와 인지·행동·정서의 관계를 이해하고 평가와 개입으로 연결하는 전문 영역입니다.</p>
     </div>
+
     <div class="program-intro">
       <div class="definition-box">
         <div class="eyebrow">Clinical Neuropsychology</div>
@@ -43,6 +56,7 @@
         <div style="margin-top:18px;font-size:.76rem;font-weight:850;letter-spacing:.08em;color:#a9c8e7">주요 연구·임상 대상</div>
         <div class="chips" id="target-diseases"></div>
       </div>
+
       <div class="assessment-box">
         <div class="eyebrow">Assessment</div>
         <h3>신경심리평가</h3>
@@ -56,17 +70,121 @@
   </div>
 </section>
 
+<section class="soft">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="eyebrow">Professional Roles</div><h2>전공 후 수행하는 일</h2></div>
+      <p>평가뿐 아니라 개입과 치료, 연구, 교육과 수련감독까지 임상신경심리학의 활동 범위는 폭넓습니다.</p>
+    </div>
+    <div class="grid2" id="role-grid"></div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="eyebrow">Curriculum</div><h2>전공 교과목</h2></div>
+      <p>임상신경심리평가, 노년신경심리학, 검사 제작, 뇌와 인지, 현장실습 등을 체계적으로 학습합니다.</p>
+    </div>
+    <div class="curriculum-wrap">
+      <table class="curriculum-table">
+        <thead>
+          <tr><th>코드</th><th>교과목명</th><th>English</th></tr>
+        </thead>
+        <tbody id="curriculum-table"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="eyebrow">Clinical & Research Training</div><h2>대학원 활동과 수련</h2></div>
+      <p>임상현장실습, 사례회의, 정기 랩미팅과 학술대회 참석을 통해 임상과 연구 경험을 함께 쌓습니다.</p>
+    </div>
+    <div class="training-grid" id="training-grid"></div>
+
+    <div class="conference-grid">
+      <div class="conference-panel">
+        <h3>국내 학회</h3>
+        <div class="conference-chips" id="conference-domestic"></div>
+      </div>
+      <div class="conference-panel">
+        <h3>국외 학회</h3>
+        <div class="conference-chips" id="conference-international"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div><div class="eyebrow">Prospective Students</div><h2>전공을 준비하는 분들에게</h2></div>
+      <p>임상신경심리학에 잘 맞는 관심과 대학원 진학 전 공부하면 좋은 기초 과목을 소개합니다.</p>
+    </div>
+
+    <div class="students-grid">
+      <div class="student-panel">
+        <h3>어떤 사람에게 잘 맞을까요?</h3>
+        <ul id="ideal-traits"></ul>
+      </div>
+
+      <div class="student-panel">
+        <h3>대학원 진학 전 추천 과목</h3>
+        <div class="prep-group">
+          <strong>핵심 심리학 과목</strong>
+          <div class="course-chips" id="recommended-psychology"></div>
+        </div>
+        <div class="prep-group">
+          <strong>핵심 임상심리학 관련 과목</strong>
+          <div class="course-chips" id="recommended-clinical"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="container">
+    <div class="section-head">
+      <div><div class="eyebrow">Career</div><h2>수련 및 진로</h2></div>
+      <p>대학원 졸업 후 임상신경심리학 수련과 자격 취득을 거쳐 다양한 임상·연구 현장으로 진출할 수 있습니다.</p>
+    </div>
+
+    <div class="pathway" id="career-pathway"></div>
+    <div class="destination-grid" id="career-destinations"></div>
+    <div class="consultation" id="consultation-note"></div>
+  </div>
+</section>
+
 <footer>
   <div class="container">
     <div class="footer-grid">
-      <div><h3 data-site="lab_name_en">Clinical Neuropsychology</h3><p><span data-site="lab_name_ko">한림대학교 일반대학원 임상신경심리전공</span><br><span data-site="school_en">Hallym University Graduate School</span></p></div>
-      <div><h3>Explore</h3><div class="footer-links"><a href="research.html">Research</a><a href="professor.html">Professor</a><a href="program.html" class="active">Program</a><a href="publications.html">Publications</a><a href="people.html">People</a></div></div>
-      <div><h3>Contact</h3><p><span data-site="room">사회경영 1관 5층 10526호</span><br><a data-site-mail href="mailto:jhchin@hallym.ac.kr">jhchin@hallym.ac.kr</a><br><a data-site-phone href="tel:0332481724">033-248-1724</a></p></div>
+      <div>
+        <h3 data-site="lab_name_en">Clinical Neuropsychology</h3>
+        <p><span data-site="lab_name_ko">한림대학교 일반대학원 임상신경심리전공</span><br><span data-site="school_en">Hallym University Graduate School</span></p>
+      </div>
+      <div>
+        <h3>Explore</h3>
+        <div class="footer-links">
+          <a href="research.html">Research</a>
+          <a href="professor.html">Professor</a>
+          <a href="program.html">Program</a>
+          <a href="publications.html">Publications</a>
+          <a href="people.html">People</a>
+        </div>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p><span data-site="room">사회경영 1관 5층 10526호</span><br><a data-site-mail href="mailto:jhchin@hallym.ac.kr">jhchin@hallym.ac.kr</a><br><a data-site-phone href="tel:0332481724">033-248-1724</a></p>
+      </div>
     </div>
     <div class="copyright">© <span class="current-year">2026</span> Clinical Neuropsychology, Hallym University. All rights reserved.</div>
   </div>
 </footer>
-<script src="assets/js/app.js"></script>
 
+<script src="assets/js/app.js"></script>
 </body>
 </html>

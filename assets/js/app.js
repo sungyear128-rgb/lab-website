@@ -61,9 +61,12 @@ async function homePage(){
     $("#home-news").innerHTML=items.slice(0,3).map(newsCard).join("") || emptyBlock("등록된 소식이 없습니다.","Pages CMS에서 News를 추가할 수 있습니다.");
   }
 }
-function newsCard(x){
+function newsCard(x, full=false){
   const image=x.image ? `<div class="news-img"><img src="${esc(x.image)}" alt=""></div>` : `<div class="news-img">LAB NEWS</div>`;
-  return `<article class="news-card">${image}<div class="news-body"><div class="news-date">${esc(x.date)}</div><h3>${esc(x.title)}</h3><p>${esc(x.summary||x.body||"")}</p></div></article>`;
+  const summary=esc(x.summary||x.body||"");
+  const detail=(full && x.body && x.body!==x.summary)
+    ? `<div class="news-detail">${nl(x.body)}</div>` : "";
+  return `<article class="news-card">${image}<div class="news-body"><div class="news-date">${esc(x.date)}</div><h3>${esc(x.title)}</h3><p>${summary}</p>${detail}</div></article>`;
 }
 function emptyBlock(title,text){
   return `<div class="empty"><h3>${esc(title)}</h3><p>${esc(text)}</p></div>`;
@@ -71,7 +74,7 @@ function emptyBlock(title,text){
 
 async function researchPage(){
   await applySite();
-  const areas=await loadJSON("data/research.json",[]);
+  const areas=(await loadJSON("data/research.json",[])).slice().sort((a,b)=>(Number(a.order)||999)-(Number(b.order)||999));
   const projects=await loadJSON("data/projects.json",[]);
   const topics=await loadJSON("data/research_topics.json",[]);
   $("#research-grid").innerHTML=areas.map((x,i)=>`
@@ -117,9 +120,10 @@ async function programPage(){
   const conferences=await loadJSON("data/conferences.json",{});
   const career=await loadJSON("data/career.json",{});
 
-  $("#program-definition").textContent=p.definition||"";
-  $("#neuropsychology-definition").textContent=p.neuropsychology_definition||"";
-  $("#target-diseases").innerHTML=(p.target_diseases||[]).map(x=>`<span class="chip">${esc(x)}</span>`).join("");
+  if($("#program-intro-title")) $("#program-intro-title").textContent=p.intro_title||"What is Clinical Neuropsychology?";
+  if($("#program-definition")) $("#program-definition").textContent=p.definition||"";
+  if($("#neuropsychology-definition")) $("#neuropsychology-definition").textContent=p.neuropsychology_definition||"";
+  if($("#target-diseases")) $("#target-diseases").innerHTML=(p.target_diseases||[]).map(x=>`<span class="chip">${esc(x)}</span>`).join("");
 
   $("#role-grid").innerHTML=roles.map((x,i)=>`
     <article class="card role-card"><div class="icon">${String(i+1).padStart(2,"0")}</div>
@@ -179,7 +183,7 @@ async function peoplePage(){
 async function newsPage(){
   await applySite();
   const items=await loadJSON("data/news.json",[]);
-  $("#news-grid").innerHTML=items.map(newsCard).join("")||emptyBlock("등록된 소식이 없습니다.","Pages CMS에서 새 소식을 추가할 수 있습니다.");
+  $("#news-grid").innerHTML=items.map(x=>newsCard(x,true)).join("")||emptyBlock("등록된 소식이 없습니다.","Pages CMS에서 새 소식을 추가할 수 있습니다.");
 }
 
 async function resourcesPage(){

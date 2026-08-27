@@ -100,3 +100,8 @@ footer{background:#081a2e;color:#fff;padding:52px 0 26px}.footer-grid{display:gr
 .program-promo h2{font-size:2rem;line-height:1.15;margin:8px 0 12px}.program-promo p{color:#cbdced;margin:0}.program-promo .eyebrow{color:#9bc4ff}.program-promo .eyebrow:before{background:#9bc4ff}.program-promo-actions{display:flex;justify-content:flex-end}
 @media(max-width:1000px){.training-grid{grid-template-columns:1fr 1fr}.pathway{grid-template-columns:1fr 1fr}.path-step:not(:last-child):after{display:none}.destination-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:760px){.program-intro,.students-grid,.program-promo{grid-template-columns:1fr}.two-list,.conference-grid{grid-template-columns:1fr}.training-grid{grid-template-columns:1fr}.pathway,.destination-grid{grid-template-columns:1fr}.program-promo-actions{justify-content:flex-start}}
+
+.news-detail{
+  margin-top:16px;padding-top:15px;border-top:1px solid var(--line);
+  color:#536176;font-size:.84rem;line-height:1.75;white-space:normal
+}
