@@ -13,28 +13,87 @@
   <div class="container nav-inner">
     <a class="brand" href="index.html">
       <div class="mark">CN</div>
-      <div><strong data-site="lab_name_en">Clinical Neuropsychology</strong><span data-site="school_en">Hallym University Graduate School</span></div>
+      <div>
+        <strong data-site="lab_name_en">Clinical Neuropsychology</strong>
+        <span data-site="school_en">Hallym University Graduate School</span>
+      </div>
     </a>
     <button class="menu-btn" aria-label="메뉴 열기">☰</button>
-    <ul class="menu"><li><a href="index.html" class="">Home</a></li><li><a href="research.html" class="">Research</a></li><li><a href="professor.html" class="">Professor</a></li><li><a href="program.html">Program</a></li><li><a href="publications.html" class="">Publications</a></li><li><a href="people.html" class="">People</a></li><li><a href="news.html" class="">News</a></li><li><a href="resources.html" class="">Resources</a></li><li><a href="contact.html" class="active">Contact</a></li></ul>
+    <ul class="menu">
+      <li><a href="index.html" data-nav="home">Home</a></li>
+      <li><a href="research.html" data-nav="research">Research</a></li>
+      <li><a href="professor.html" data-nav="professor">Professor</a></li>
+      <li><a href="program.html" data-nav="program">Program</a></li>
+      <li><a href="publications.html" data-nav="publications">Publications</a></li>
+      <li><a href="people.html" data-nav="people">People</a></li>
+      <li><a href="news.html" data-nav="news">News</a></li>
+      <li><a href="resources.html" data-nav="resources">Resources</a></li>
+      <li><a href="contact.html" data-nav="contact">Contact</a></li>
+    </ul>
   </div>
 </nav>
 
 <header class="page-hero"><div class="container"><div class="eyebrow">Contact</div><h1>Contact & Directions</h1><p>한림대학교 임상심리실험실 위치와 연락처입니다.</p></div></header>
-<section><div class="container contact-grid"><div class="contact-dark"><h2>Contact</h2><p><span data-site="lab_name_ko"></span><br><span data-site="room_name"></span></p><div class="citem"><strong>Email</strong><a data-site-mail></a></div><div class="citem"><strong>Phone</strong><a data-site-phone></a></div><div class="citem"><strong>Room</strong><span data-site="room"></span></div></div><div class="route"><div class="eyebrow">Directions</div><h3>오시는 길</h3><p><strong data-site="address"></strong><br><span data-site="room"></span></p><div class="route-note"><strong>찾아오시는 방법</strong><br><span data-site="directions"></span></div><div class="consultation"><strong>대학원 상담 및 문의</strong><br><span id="contact-consultation"></span></div><div class="map"><img id="campus-map" src="assets/images/hallym-campus-map.webp" alt="한림대학교 캠퍼스 지도"></div></div></div></section>
+<section><div class="container contact-grid"><div class="contact-dark"><h2>Contact</h2><p><span data-site="lab_name_ko"></span><br><span data-site="room_name"></span></p><div class="citem"><strong>Email</strong><a data-site-mail></a></div><div class="citem"><strong>Phone</strong><a data-site-phone></a></div><div class="citem"><strong>Room</strong><span data-site="room"></span></div></div><div class="route"><div class="eyebrow">Directions</div><h3>오시는 길</h3><p><strong data-site="address"></strong><br><span data-site="room"></span></p><div class="route-note"><strong>찾아오시는 방법</strong><br><span data-site="directions"></span></div><div class="consultation"><strong>대학원 상담 및 문의</strong><br><span id="contact-consultation"></span></div><div class="map map-interactive" id="map-preview" tabindex="0" role="button" aria-label="캠퍼스 지도 크게 보기">
+        <img id="campus-map" src="assets/images/hallym-campus-map.webp" alt="한림대학교 캠퍼스 지도">
+        <div class="map-hover-label">클릭하여 크게 보기 ↗</div>
+      </div></div></div></section>
 
 
 <footer>
   <div class="container">
     <div class="footer-grid">
-      <div><h3 data-site="lab_name_en">Clinical Neuropsychology</h3><p><span data-site="lab_name_ko">한림대학교 일반대학원 임상신경심리전공</span><br><span data-site="school_en">Hallym University Graduate School</span></p></div>
-      <div><h3>Explore</h3><div class="footer-links"><a href="research.html">Research</a><a href="professor.html">Professor</a><a href="program.html">Program</a><a href="publications.html">Publications</a><a href="people.html">People</a></div></div>
-      <div><h3>Contact</h3><p><span data-site="room">사회경영 1관 5층 10526호</span><br><a data-site-mail href="mailto:jhchin@hallym.ac.kr">jhchin@hallym.ac.kr</a><br><a data-site-phone href="tel:0332481724">033-248-1724</a></p></div>
+      <div>
+        <h3 data-site="lab_name_en">Clinical Neuropsychology</h3>
+        <p><span data-site="lab_name_ko">한림대학교 일반대학원 임상신경심리전공</span><br>
+        <span data-site="school_en">Hallym University Graduate School</span></p>
+      </div>
+      <div>
+        <h3>Explore</h3>
+        <div class="footer-links">
+          <a href="research.html">Research</a>
+          <a href="professor.html">Professor</a>
+          <a href="program.html">Program</a>
+          <a href="publications.html">Publications</a>
+          <a href="people.html">People</a>
+          <a href="news.html">News</a>
+          <a href="resources.html">Resources</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p><span data-site="room">사회경영 1관 5층 10526호</span><br>
+        <a data-site-mail href="mailto:jhchin@hallym.ac.kr">jhchin@hallym.ac.kr</a><br>
+        <a data-site-phone href="tel:0332481724">033-248-1724</a></p>
+      </div>
     </div>
     <div class="copyright">© <span class="current-year">2026</span> Clinical Neuropsychology, Hallym University. All rights reserved.</div>
   </div>
 </footer>
 <script src="assets/js/app.js"></script>
+
+
+<div class="map-modal" id="map-modal" aria-hidden="true">
+  <div class="map-modal-backdrop" data-map-close></div>
+  <div class="map-modal-panel" role="dialog" aria-modal="true" aria-label="한림대학교 캠퍼스 지도">
+    <div class="map-modal-header">
+      <div>
+        <strong>한림대학교 캠퍼스 지도</strong>
+        <span>마우스 휠 또는 + / − 버튼으로 확대·축소할 수 있습니다.</span>
+      </div>
+      <button class="map-control close" type="button" data-map-close aria-label="지도 닫기">×</button>
+    </div>
+    <div class="map-stage" id="map-stage">
+      <img id="map-large" src="assets/images/hallym-campus-map.webp" alt="한림대학교 캠퍼스 지도 확대 보기">
+    </div>
+    <div class="map-controls">
+      <button class="map-control" type="button" id="map-minus" aria-label="축소">−</button>
+      <button class="map-control reset" type="button" id="map-reset">100%</button>
+      <button class="map-control" type="button" id="map-plus" aria-label="확대">+</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
